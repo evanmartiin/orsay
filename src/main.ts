@@ -1,3 +1,8 @@
 import './main.scss'
 import Experience from './webgl/Experience'
-new Experience(document.getElementsByClassName('webgl')[0] as HTMLCanvasElement)
+
+const startBtn = document.querySelector('.start-btn') 
+
+startBtn?.addEventListener("click", ()=> {
+    new Experience(document.getElementsByClassName('webgl')[0] as HTMLCanvasElement)
+})

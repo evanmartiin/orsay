@@ -15,7 +15,8 @@ const Sources: ISource[] = [
         name: 'foxModel',
         type: 'gltfModel',
         path: '/models/Fox/glTF/Fox.gltf'
-    }
+    },
+
 ]
 
 export default Sources;

@@ -8,6 +8,7 @@ import Renderer from './Renderer'
 import World from '../World/World'
 import Loaders from '../Utils/Loaders'
 import Sources from './sources'
+import Device from '../Utils/Device'
 
 declare global {
   interface Window {
@@ -17,7 +18,7 @@ declare global {
 
 export interface ISource {
     name: string;
-    type: 'gltfModel' | 'texture';
+    type: 'gltfModel' | 'texture' | 'video'; 
     path: string;
 }
 
@@ -28,6 +29,7 @@ export default class Experience
     public canvas: HTMLCanvasElement | null = null
     private sources: ISource[] | null = null
     public debug: Debug | null = null
+   
     public sizes: Sizes | null = null
     public time: Time | null = null
     public scene: Scene | null = null
@@ -35,6 +37,8 @@ export default class Experience
     public camera: Camera | null = null
     private renderer: Renderer | null = null
     private world: World | null = null
+
+    public device: Device | null = null
 
     constructor(_canvas?: HTMLCanvasElement)
     {
@@ -50,6 +54,7 @@ export default class Experience
 
         // Options
         if (_canvas) this.canvas = _canvas
+        this.device = new Device();
         this.sources = Sources
         this.loaders = new Loaders(this.sources);
         this.sizes = new Sizes();
