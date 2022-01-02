@@ -4,15 +4,15 @@ import Sizes from "../Utils/Sizes";
 
 
 // shaders
-import vertShader from '../Shaders/sequence/vertex.vert?raw'
-import fragShader from '../Shaders/sequence/fragment.frag?raw'
+import vertShader from '../shaders/sequence/vertex.vert?raw'
+import fragShader from '../shaders/sequence/fragment.frag?raw'
 
 
 export default class Sequence
 {
     private experience: Experience = new Experience();
     private scene: Scene = this.experience.scene as Scene;
-    private sizes: Sizes = this.experience.sizes as Sizes ;
+    private sizes: Sizes = this.experience.sizes as Sizes;
     private geometry: PlaneGeometry | null = null;
     private texture: VideoTexture | null = null;
     private material: any

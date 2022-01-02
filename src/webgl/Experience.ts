@@ -8,7 +8,10 @@ import Renderer from './Renderer'
 import World from '../World/World'
 import Loaders from '../Utils/Loaders'
 import Sources from './sources'
+
+//New
 import Device from '../Utils/Device'
+import Raycaster from '../Interactions/Raycaster'
 
 declare global {
   interface Window {
@@ -38,6 +41,7 @@ export default class Experience
     private renderer: Renderer | null = null
     private world: World | null = null
 
+    public raycaster: Raycaster | null = null
     public device: Device | null = null
 
     constructor(_canvas?: HTMLCanvasElement)
@@ -64,10 +68,22 @@ export default class Experience
         this.camera = new Camera();
         this.renderer = new Renderer();
         this.world = new World();
+        this.raycaster = new Raycaster()
 
+        //todo a mettre dans le manager
+        this.raycaster.callEvents()
+
+        new Promise((resolve, reject) => {
+  
+            setTimeout(resolve, 5000);
+        }).then(() => {
+            this.raycaster?.setObjectsScene("one")
+        });
+       
         // Resize event
         this.sizes.on('resize', () =>
         {
+            console.log(this.scene?.children)
             this.resize()
         })
 
@@ -75,7 +91,11 @@ export default class Experience
         this.time.on('tick', () =>
         {
             this.update()
+           
         })
+
+      
+        
     }
 
     resize()
@@ -90,6 +110,8 @@ export default class Experience
         this.world?.update()
         this.renderer?.update()
         this.debug?.update()
+       
+        
     }
 
     destroy()

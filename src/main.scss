@@ -6,4 +6,5 @@ html, body, #app {
 html, body, canvas, #app, .webgl {
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
