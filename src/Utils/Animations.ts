@@ -1,4 +1,3 @@
-import gsap from "gsap";
 import {getProject} from "@theatre/core"
 import studio from "@theatre/studio"
 
@@ -8,8 +7,6 @@ export default class Animations {
     studio: any
 
     constructor() {
-
-        this.tl = gsap.timeline()
 
         this.studio = studio.initialize()
         const proj = getProject(

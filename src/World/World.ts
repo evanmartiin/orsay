@@ -1,4 +1,5 @@
 import Sequence from '../Scenes/Sequence';
+import SequenceManager from '../Scenes/SequenceManager';
 import Loaders from '../Utils/Loaders';
 import Experience from '../webgl/Experience'
 import Environment from './Environment'
@@ -14,7 +15,7 @@ export default class World
     protected environment: Environment | null = null;
 
     // VIDEO
-    protected sequence: Sequence | null = null;
+    protected sequenceManager: SequenceManager | null = null;
 
     constructor()
     {
@@ -24,7 +25,7 @@ export default class World
             this.floor = new Floor()
             this.fox = new Fox()
             this.environment = new Environment()
-            this.sequence = new Sequence()
+            this.sequenceManager = new SequenceManager()
         })
     }
 
@@ -33,10 +34,6 @@ export default class World
         if(this.fox)
             this.fox.update()
 
-
-        // VIDEO
-        if(this.sequence) 
-            this.sequence.update()
     }
 
 

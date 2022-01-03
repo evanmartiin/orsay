@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Howl, Howler } from 'howler';
 
 
@@ -26,7 +27,7 @@ export default class AudioManager {
         }
     }
 
-    audioSprites = (name) => {
+    audioSprites = () => {
         const sound = new Howl({
             src: ['sounds.mp3'],
             sprite: {
@@ -37,7 +38,6 @@ export default class AudioManager {
               esquisseP3: [9000, 6000],
             }
         });
-
 
         const esquisseP1 = sound.sprite.esquisseP1
         const esquisseP2 = sound.sprite.esquisseP2
@@ -69,16 +69,16 @@ export default class AudioManager {
         sound.play()
     }
 
-    playSound = (sprite, name) => {
+    playSound = (sprite: any, name: string) => {
         sprite.play(name);
     }
     
 
-    pauseAudio = (sound) => {
+    pauseAudio = (sound:any) => {
         sound.pause()
     }
 
-    subtitlesDestroy = (subtitle) => {
+    subtitlesDestroy = (subtitle:any) => {
         
     }
 }
