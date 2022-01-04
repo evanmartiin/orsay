@@ -150,6 +150,7 @@ export default class SequenceManager2 {
             sequence.destroy()
             this.currentSequence += 1
             this.initSequences()
+          
         }
 
         if(state === "back") {
