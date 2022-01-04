@@ -11,7 +11,7 @@ export default class Device
 
     constructor()
     {
-        this.mobileDetect()
+        //this.mobileDetect()
     }  
     
     mobileDetect = () => {

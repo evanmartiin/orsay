@@ -68,6 +68,8 @@ export default class Experience
         this.camera = new Camera();
         this.renderer = new Renderer();
         this.world = new World();
+
+
         this.raycaster = new Raycaster()
 
         //todo a mettre dans le manager

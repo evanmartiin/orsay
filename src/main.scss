@@ -8,3 +8,10 @@ html, body, canvas, #app, .webgl {
     padding: 0;
     overflow: hidden;
 }
+
+.step-1 {
+    
+    position: fixed;
+    z-index: 2;
+    top: 0;
+}
