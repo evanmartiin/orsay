@@ -41,7 +41,7 @@ export default class Sequence
         this.video = null;
 
         if(sequenceType === '2D') {
-            this.initSequencePlane(sequenceNumber, source, position);
+            this.initSequencePlane(sequenceNumber, source);
             
         } else if(sequenceType === "3D") {
             
@@ -50,7 +50,7 @@ export default class Sequence
     }  
 
 
-    initSequencePlane = (sequenceNumber: number, source: string, position?: number) => {
+    initSequencePlane = (sequenceNumber: number, source: string) => {
 
         this.video = document.createElement('video')
         this.video.src = source
@@ -87,10 +87,6 @@ export default class Sequence
         
         this.mesh = new Mesh(this.geometry, this.material)
 
-
-        if(position) {
-            this.mesh.position.z = position
-        }
 
         this.scene.add(this.mesh)
         this.video.play();

@@ -19,11 +19,14 @@ export default class Camera
         this.setControls()
     }
 
+
+
     setInstance()
     {
         this.instance = new PerspectiveCamera(35, this.sizes.width / this.sizes.height, 0.1, 100)
         this.instance.position.set(6, 4, 8)
         this.scene.add(this.instance)
+        
     }
 
     setControls()
@@ -44,6 +47,8 @@ export default class Camera
 
     update()
     {
+        // console.log(this.instance)
+        
         this.controls?.update()
     }
 }

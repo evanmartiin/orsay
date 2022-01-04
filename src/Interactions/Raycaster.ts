@@ -49,7 +49,7 @@ export default class Raycaster {
         
         this.raycaster.setFromCamera(new Vector2(this.mouse.x, this.mouse.y), this.camera)
        
-        this.intersects = this.raycaster.intersectObjects(this.objects, true)
+        this.intersects = this.raycaster.intersectObjects(this.scene.children, true)
        
        
         if (this.intersects.length) {
