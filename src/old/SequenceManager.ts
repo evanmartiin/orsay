@@ -1,5 +1,5 @@
 import Sequence from './Sequence'
-import AudioManager from './AudioManager'
+import AudioManager from '../Scenes/AudioManager'
 
 
 export default class SequenceManager {   

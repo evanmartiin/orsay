@@ -1,7 +1,6 @@
 // @ts-ignore
 import { Howl, Howler } from 'howler';
 
-
 export default class AudioManager {
     subtitles: Object
 

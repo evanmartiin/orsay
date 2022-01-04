@@ -1,108 +1,106 @@
-import { PlaneGeometry, RawShaderMaterial, MeshBasicMaterial, Mesh, Scene, Vector2, VideoTexture, LinearFilter, RGBFormat, DoubleSide, FrontSide } from "three";
+import { MeshBasicMaterial,  Scene, VideoTexture, LinearFilter, RGBFormat } from "three";
 import Experience from "../webgl/Experience";
-import Sizes from "../Utils/Sizes";
-
-
-
-// shaders
-import vertShader from '../shaders/sequence/vertex.vert?raw'
-import fragShader from '../shaders/sequence/fragment.frag?raw'
 
 
 export default class Sequence
 {
     private experience: Experience = new Experience();
     private scene: Scene = this.experience.scene as Scene;
-    private sizes: Sizes = this.experience.sizes as Sizes;
-    private geometry: PlaneGeometry | null = null;
-    private texture: VideoTexture | null = null;
-    private material: any
-    private time: number
     private camera: any
     public video: any
 
+    private sources: any
     private type: string
     private mesh: any
 
-    private fov_y: any
-
-    constructor(sequenceNumber: number, sequenceType:string, source: string, position?:number)
+    constructor(sources: any)
     {
         this.experience = new Experience()
     
         //WIP aspect ratio
         this.camera = this.experience.camera?.instance
-        this.fov_y = this.camera.position.z * this.camera.getFilmHeight() / this.camera.getFocalLength();
 
+        //la video si on est en 2D
         this.mesh = null;
-        this.material = null;
-        this.time = 0.01;
-        this.type = sequenceType
         this.video = null;
 
-        if(sequenceType === '2D') {
-            this.initSequencePlane(sequenceNumber, source);
-            
-        } else if(sequenceType === "3D") {
-            
-        }
-    
+        // les sources qui permettent de faire toute la scène (position, source video..)
+        this.sources = sources
+        this.type = sources.type
+        this.initSequence()    
     }  
 
 
-    initSequencePlane = (sequenceNumber: number, source: string) => {
+    // soit c'est une video, et alors la caméra y fait face (2D), soit c'est un déplacement dans la scène 3D
+    initSequence = () => {
 
+        if(this.type === "2D") {
+
+           this.createVideo() 
+           this.setCameraStartSequence()
+            
+        } else {
+
+           this.create3DSequence()
+
+        }
+
+       
+    
+    }
+
+    createVideo = () => {
+
+        this.mesh = this.scene.getObjectByProperty('name', this.sources.meshAlreadyInsideScene); 
+        
         this.video = document.createElement('video')
-        this.video.src = source
+        this.video.src = this.sources.source
         this.video.autoplay = true
         this.video.loop = false
         // this.video.play();
 
-        this.texture = new VideoTexture(this.video);
-        this.texture.minFilter = LinearFilter;
-        this.texture.magFilter = LinearFilter;
-        this.texture.format = RGBFormat;
+        const texture = new VideoTexture(this.video);
+        texture.minFilter = LinearFilter;
+        texture.magFilter = LinearFilter;
+        texture.format = RGBFormat;
        
-        this.geometry = new PlaneGeometry(4,5)
-        this.resize(this.texture)
-
-        this.material = new MeshBasicMaterial({
-            color:0xffffff,
-            map: this.texture,
-            side: FrontSide
+        const material = new MeshBasicMaterial({
+            map: texture,
         })
 
-        this.material.map.needsUpdate = true;
+       this.mesh.material = material
+
+    }
+
+
+    create3DSequence = () => {
+
+    }
+
+    setCameraStartSequence = () => {
     
-        // this.material = new RawShaderMaterial({
-        //     uniforms: {   
-        //         rez: { value: [this.sizes.width, this.sizes.height] },
-        //         uTextureSize: { value: new Vector2(4, 5) },
-        //         texture: { value: this.texture },
-        //     },
-        //     vertexShader: vertShader,
-        //     fragmentShader: fragShader,
-        // })
-
+        // TODO faire ça avec les transitions en theatre.js ou avec du lerp
         
-        this.mesh = new Mesh(this.geometry, this.material)
+        this.camera.position.x = this.sources.camera[0].pos_x, 
+        this.camera.position.y = this.sources.camera[0].pos_y, 
+        this.camera.position.z = this.sources.camera[0].pos_z
 
+        this.camera.rotation.x = this.sources.camera[1].rot_x
+        this.camera.rotation.y = this.sources.camera[1].rot_y
+        this.camera.rotation.z = this.sources.camera[1].rot_z
 
-        this.scene.add(this.mesh)
-        this.video.play();
+        this.camera.quaternion.w = this.sources.camera[2].quat_w
+        this.camera.quaternion.x = this.sources.camera[2].quat_x
+        this.camera.quaternion.y = this.sources.camera[2].quat_y
+        this.camera.quaternion.z = this.sources.camera[2].quat_z
 
     }
 
-    update = () => {
-      
-       
-    }
 
     destroy = () => {
         this.scene.remove(this.mesh)
+        this.video.remove()
     }
-
-
 
     setBackground(texture: any) {
 
@@ -114,6 +112,7 @@ export default class Sequence
         texture.offset.x = 0.5 * (1 - ratio);
         
     }
+
 
     resize = (texture: any) => {
         texture.matrixAutoUpdate = false;

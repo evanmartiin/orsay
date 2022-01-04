@@ -1,13 +1,12 @@
 import Sequence2 from './Sequence2'
 import AudioManager from './AudioManager'
 import Experience from '../webgl/Experience'
-import { Color, MeshBasicMaterial } from 'three'
-import { VideoTexture, LinearFilter, RGBFormat, DoubleSide, FrontSide } from "three";
-
+import Animations from '../Utils/Animations'
 
 export default class SequenceManager2 {   
     
     currentSequence: number
+    animations: Animations
     am: AudioManager
     nextBtn:any
     prevBtn: any
@@ -29,59 +28,86 @@ export default class SequenceManager2 {
 
     constructor() {
 
-        this.experience = new Experience()
-        this.scene = this.experience.scene
-        this.camera = this.experience.camera?.instance
-        this.am = new AudioManager()
-     
+        // dom
         this.nextBtn = document.querySelector(".next")
         this.prevBtn = document.querySelector(".prev")
         this.replayBtn = document.querySelector(".replay")
 
+        // base
+        this.experience = new Experience()
+        this.scene = this.experience.scene
+        this.camera = this.experience.camera?.instance
+        
 
+        // Audio
+        this.am = new AudioManager()
+        this.animations = new Animations()
+
+        // variable pour lancer les étapes du projets (1. story - 2. AR - 3. Main custo)
+        this.initPartTwo = false
+        this.initPartThree = false
+
+        // sequences de la scene
         this.firstSequence = null, this.secondSequence = null, this.thirdSequence = null
+        this.currentSequence = 1;
 
         this.sources = [
             {
+                sequenceNumber: 1,
                 nameSequence: 'Esquisse',
                 source: '/videos/Croquis.mov', 
                 type: "2D",
-                cameraPos: []
+                meshAlreadyInsideScene: 'sequence-1_1',
+                audio: [],
+                camera: [
+                    {
+                        pos_x: 0.72,
+                        pos_y: 1.8,
+                        pos_z: -0.51
+                    },
+                    {
+                        rot_x:  -1.57,
+                        rot_y:  -0,
+                        rot_z: -1.6
+                    },
+                    {
+                        quat_w:  0.5,
+                        quat_x:  -0.5,
+                        quat_y:  -0.5,
+                        quat_z: -0.5
+                    },
+                    
+                ]
             },
             {
+                sequenceNumber: 2,
                 nameSequence: 'Aquarelle',
                 source: '/videos/Aquarelle.mov', 
                 type: "2D",
-                cameraPos: []
+                meshAlreadyInsideScene: 'sequence-2_1',
+                cameraPos: [ 
+               
+                ]
             },
-            {
-                nameSequence: 'Atelier',
-                source: '/models/Atelier.gltf', 
-                type: "3D",
-                cameraPos: []
-            }
+            
         ]
 
-        this.currentSequence = 1;
-
-        this.initPartTwo = false
-        this.initPartThree = false
         
-        this.initSequence()
-        // this.addEvents()
+        this.initSequences()
+        this.addEvents()
     }
 
     initSequences = () => {
 
-        // if(this.currentSequence === 1) {
-        //     this.firstSequence = new Sequence(this.currentSequence, '2D', '/videos/Croquis.mov')
+        if(this.currentSequence === 1) {
+            this.firstSequence = new Sequence2(this.sources[0])
 
-        // } else if(this.currentSequence === 2) {
-        //     this.secondSequence = new Sequence(this.currentSequence, '2D', '/videos/Aquarelle.mov', -5)
+        } else if(this.currentSequence === 2) {
+            this.secondSequence = new Sequence2(this.sources[1])
        
-        // } else if(this.currentSequence === 3) {
-        //     this.thirdSequence = new Sequence(this.currentSequence, '3D', '/models/Atelier.gltf')
-        // }
+        } else if(this.currentSequence === 3) {
+            this.thirdSequence = new Sequence2(this.sources[2])
+        }
        
     }
 
@@ -96,6 +122,7 @@ export default class SequenceManager2 {
 
         let sequence;
 
+        // on choppe la bonne séquence
         if(currentSequence === 1) {
             sequence = this.firstSequence
         } else if(currentSequence === 2) {
@@ -104,21 +131,19 @@ export default class SequenceManager2 {
             sequence = this.thirdSequence
         }
 
+
         if(state === "replay") {
 
             if(sequence.type === '2D') {
-               
-                console.log(sequence.video.currentTime)
-                sequence.video.pause() 
-                sequence.currentTime = 0
-                sequence.video.play()
-
-                //camera position
                 
-            } 
-
-            //if 3d take camera to point
-           
+                //rebuild mesh pour rejouer la sequence video sur le plane
+                sequence.createVideo()
+                
+            } else {
+                // if 3d take camera to point
+                // ça fade au black puis ça revient sur la position de base, et ça relance
+                sequence.setCameraStartSequence()
+            }
         }
 
         if(state === "next") {
@@ -134,95 +159,27 @@ export default class SequenceManager2 {
         }
     }
 
-    destroySequence = () => {
-
-    }
-
 
     endOfSequence = () => {
 
     }
 
 
-    initSequence = () => {
-        //this.changeSequence(this.currentSequence, "replay")
-        const seq1 = this.scene.getObjectByProperty('name', 'base');
-
-        
-        // this.camera.position.x = 0.6565536979067577, 
-        // this.camera.position.y = 2.2, 
-        // this.camera.position.z = -0.5152404160336064
-
-        // this.camera.rotation.x = -2
-        // this.camera.rotation.y = -0
-        // this.camera.rotation.z = -1.6
-
-        // this.camera.quaternion.w = -0.5
-        // this.camera.quaternion.x = 0.5
-        // this.camera.quaternion.y = 0.5
-        // this.camera.quaternion.z = 0.5
-
-
-        const seq2 = this.scene.getObjectByProperty('name', 'sequence-1_1'); 
-       
-        const video = document.createElement('video')
-        video.src = '/videos/Croquis.mov'
-        video.autoplay = true
-        video.loop = false
-        // this.video.play();
-
-        const texture = new VideoTexture(video);
-        texture.minFilter = LinearFilter;
-        texture.magFilter = LinearFilter;
-        texture.format = RGBFormat;
-       
-        const material = new MeshBasicMaterial({
-            map: texture,
-        })
-
-    
-        seq2.material = material
-
-        
-        this.nextBtn.addEventListener('click', this.nextSequence)
-        this.prevBtn.addEventListener('click', this.prevSequence)
-        this.replayBtn.addEventListener('click', this.replaySequence)
-   
-    }
-
-
     replaySequence = () => {
 
-        //clear material obligé sinon 
-       
-        const seq2 = this.scene.getObjectByProperty('name', 'sequence-1_1'); 
-       
-        const video = document.createElement('video')
-        video.src = '/videos/Croquis.mov'
-        video.autoplay = true
-        video.loop = false
-        // this.video.play();
-
-        const texture = new VideoTexture(video);
-        texture.minFilter = LinearFilter;
-        texture.magFilter = LinearFilter;
-        texture.format = RGBFormat;
-       
-        const material = new MeshBasicMaterial({
-            map: texture,
-        })
-
-    
-        seq2.material = material
+        this.changeSequence(this.currentSequence, "replay")
     }
 
-    prevSequence = (video:any) => {
-        //this.changeSequence(this.currentSequence, "back")
+    prevSequence = () => {
+
+        this.changeSequence(this.currentSequence, "back")
         
     }
 
-    nextSequence = (video:any) => {
+    nextSequence = () => {
     
-       // this.changeSequence(this.currentSequence, "next")
+       this.changeSequence(this.currentSequence, "next")
     }
+
+
 }
