@@ -16,7 +16,7 @@ export default class Camera
     constructor()
     {
         this.setInstance()
-        // this.setControls()
+        //this.setControls()
     }
 
 
@@ -47,7 +47,8 @@ export default class Camera
 
     update()
     {
-    
+
+        // console.log(this.instance?.position, this.instance?.rotation, this.instance?.quaternion)
         
         this.controls?.update()
     }

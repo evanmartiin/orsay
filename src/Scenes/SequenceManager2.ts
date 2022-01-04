@@ -58,6 +58,7 @@ export default class SequenceManager2 {
                 source: '/videos/Croquis.mov', 
                 type: "2D",
                 meshAlreadyInsideScene: 'sequence-1_1',
+                nextMesh: 'sequence-2_1',
                 audio: [],
                 camera: [
                     {
@@ -76,7 +77,6 @@ export default class SequenceManager2 {
                         quat_y:  -0.5,
                         quat_z: -0.5
                     },
-                    
                 ]
             },
             {
@@ -84,12 +84,37 @@ export default class SequenceManager2 {
                 nameSequence: 'Aquarelle',
                 source: '/videos/Aquarelle.mov', 
                 type: "2D",
+                previousMesh: 'sequence-1_1',
                 meshAlreadyInsideScene: 'sequence-2_1',
-                cameraPos: [ 
-               
+                audio: [],
+                camera: []
+            },
+            {
+                sequenceNumber: 3,
+                nameSequence: 'Atelier',
+                type: "3D",
+                audio: [],
+
+                // coordonnées de destination 
+                camera: [ 
+                    {
+                        pos_x: -0.78,
+                        pos_y:  1.85,
+                        pos_z: 2.5
+                    },
+                    {
+                        rot_x:  -0.08,
+                        rot_y:  -0.43,
+                        rot_z: -0.03
+                    },
+                    {
+                        quat_w:  0.97,
+                        quat_x:  -0.03,
+                        quat_y: -0.21,
+                        quat_z: -0.008
+                    },
                 ]
             },
-            
         ]
 
         
@@ -138,25 +163,40 @@ export default class SequenceManager2 {
                 
                 //rebuild mesh pour rejouer la sequence video sur le plane
                 sequence.createVideo()
-                
+                sequence.setCameraStartSequence()
             } else {
                 // if 3d take camera to point
                 // ça fade au black puis ça revient sur la position de base, et ça relance
-                sequence.setCameraStartSequence()
+                this.animations.cameraAnimation(this.camera, [sequence.camera[1], sequence.camera[2], sequence.camera[3]], 20)
             }
         }
 
         if(state === "next") {
-            sequence.destroy()
+            // sequence.destroy()
             this.currentSequence += 1
             this.initSequences()
+            // console.log(sequence.mesh)
+            // console.log(sequence.nextMesh)
+
+            if(sequence.type === '2D') {
+                
+                this.animations.hideAndShow(sequence.mesh, sequence.nextMesh, "next")
+            } else {
+                // if 3d take camera to point
+                // ça fade au black puis ça revient sur la position de base, et ça relance
+                this.animations.cameraAnimation(this.camera, [sequence.camera[1], sequence.camera[2], sequence.camera[3]], 20)
+            }
+
+          
           
         }
 
         if(state === "back") {
-            sequence.destroy()
+            // sequence.destroy()
             this.currentSequence -= 1
             this.initSequences()
+            
+            this.animations.hideAndShow(sequence.mesh, sequence.prevMesh, "prev")
         }
     }
 

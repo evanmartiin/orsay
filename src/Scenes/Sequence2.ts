@@ -11,7 +11,9 @@ export default class Sequence
 
     private sources: any
     private type: string
-    private mesh: any
+    public mesh: any
+    public prevMesh:any
+    public nextMesh:any
 
     constructor(sources: any)
     {
@@ -24,9 +26,17 @@ export default class Sequence
         this.mesh = null;
         this.video = null;
 
+
         // les sources qui permettent de faire toute la scène (position, source video..)
         this.sources = sources
         this.type = sources.type
+
+        if(this.sources.sequenceNumber > 1 && this.sources.sequenceNumber < 2) {
+            this.prevMesh = this.scene.getObjectByProperty('name', this.sources.previousMesh); 
+        } else {
+            this.nextMesh = this.scene.getObjectByProperty('name', this.sources.nextMesh); 
+        }
+
         this.initSequence()    
     }  
 
@@ -37,7 +47,8 @@ export default class Sequence
         if(this.type === "2D") {
 
            this.createVideo() 
-           this.setCameraStartSequence()
+           
+           if(this.sources.camera.length > 0) this.setCameraStartSequence()
             
         } else {
 
@@ -74,6 +85,12 @@ export default class Sequence
 
 
     create3DSequence = () => {
+
+        // on a le déplacement de la caméra
+
+        // on a l'audio qui démarre
+
+        // on a le manager nav qui suit la progression
 
     }
 

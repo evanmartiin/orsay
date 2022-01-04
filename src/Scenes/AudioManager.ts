@@ -24,35 +24,39 @@ export default class AudioManager {
                 "part-1": "",
             },
         }
+
+        //this.audioSprites()
     }
 
     audioSprites = () => {
         const sound = new Howl({
-            src: ['sounds.mp3'],
+            src: ['/audios/elon.mp3'],
             sprite: {
               
               // offset, duration
-              esquisseP1: [0, 3000],
-              esquisseP2: [4000, 5000],
-              esquisseP3: [9000, 6000],
+              esquisse1: [0, 3000],
+              esquisse2: [4000, 5000],
+              esquisse3: [9000, 6000],
             }
         });
 
-        const esquisseP1 = sound.sprite.esquisseP1
-        const esquisseP2 = sound.sprite.esquisseP2
-        const esquisseP3 = sound.sprite.esquisseP3
+        const esquisse1 = sound.sprite.esquisse1
+        const esquisse2 = sound.sprite.esquisse2
+        const esquisse3 = sound.sprite.esquisse3
 
-        esquisseP1.on('end', function(){
+        esquisse1.on('end', function(){
+            esquisse2.play()
+        });
+
+        esquisse2.on('end', function(){
+            esquisse3.play()
+        });
+
+        esquisse3.on('end', function(){
             
         });
 
-        esquisseP2.on('end', function(){
-            
-        });
-
-        esquisseP3.on('end', function(){
-            
-        });
+       
     }
 
     // todo sprites

@@ -14,7 +14,6 @@ export default class Atelier
     private debugFolder: any;
     private resource: any;
     private model: any;
-    private animation: any;
 
     constructor()
     {
