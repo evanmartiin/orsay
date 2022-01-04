@@ -26,6 +26,8 @@ export default class Fox
 
         // Resource
         this.resource = this.loaders.items.foxModel
+        console.log(this.loaders.items);
+        
 
         this.setModel()
         this.setAnimation()
