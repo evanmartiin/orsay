@@ -99,7 +99,6 @@ export default class SequenceManager2 {
                 type: "3D",
                 audio: [],   
                 camera: [ 
-        
                     // coordonnées de destination 
                     {
                         pos_x: -0.78,
@@ -114,7 +113,6 @@ export default class SequenceManager2 {
                         quat_z: -0.008
                     }
                    
-                    
                 ]
             },
         ]
@@ -151,13 +149,11 @@ export default class SequenceManager2 {
     changeSequence = (state: string) => {
         console.log(this.currentSequence)
         console.log(this.sequenceNumber)
-
-        // celle à l'écran
-        this.oldSequence = this.currentSequence
         
-        
+        if(state !== "back")  this.oldSequence = this.currentSequence // celle à l'écran avant de la changer, on la sauvegarde
         if(state !== "replay") this.initSequences()  // la nouvelle sequence, devient l'actuelle, sauf en cas de replay
-  
+       
+    
         /* SCENE REPLAY */
 
         if(state === "replay") {
@@ -188,7 +184,7 @@ export default class SequenceManager2 {
 
         } else if(state === "back") {
                 // sequence.destroy()
-                console.log(this.oldCameraPos)
+                console.log(this.oldSequence.mesh, this.currentSequence.prevMesh)
 
                 if(this.oldSequence.type === '2D') {
                     
@@ -199,9 +195,7 @@ export default class SequenceManager2 {
                     this.animations.cameraAnimation("reverse", this.camera, this.oldCameraPos)
                 }
         }
-            
-       
-    
+        
     }
 
 

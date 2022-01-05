@@ -45,18 +45,11 @@ export default class Animations {
             tl.to(camera.quaternion, { w: cameraDestination.quat_w, z: cameraDestination.quat_z, y: cameraDestination.quat_y, x: cameraDestination.quat_x, duration: durationSequence,  ease:"power2.out"}, 0)
         
         } else if(type === "reverse") {
-            console.log(camera)
             tl.to(camera.position, { z: cameraDestination.pos_z, y:cameraDestination.pos_y, x: cameraDestination.pos_x, duration: 2,  ease:"power2.inOut"}, 0)
             tl.to(camera.rotation, { z: cameraDestination.rot_z, y: cameraDestination.rot_y, x: cameraDestination.rot_x, duration: 2,  ease:"power2.inOut"}, 0)
             tl.to(camera.quaternion, { w: cameraDestination.quat_w, z: cameraDestination.quat_z, y: cameraDestination.quat_y, x: cameraDestination.quat_x, duration: 2,  ease:"power2.inOut"}, 0)
         }
       
         
-    }
-
-    
-
-    show = () => {
-
     }
 }

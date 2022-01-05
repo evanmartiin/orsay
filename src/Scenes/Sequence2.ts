@@ -55,9 +55,6 @@ export default class Sequence
            this.create3DSequence()
 
         }
-
-       
-    
     }
 
     createVideo = () => {
