@@ -8,9 +8,10 @@ export default class SequenceManager2 {
     
     animations: Animations
     am: AudioManager
-    private nextBtn: HTMLElement
-    private prevBtn: HTMLElement
-    private replayBtn: HTMLElement
+    private navigation: HTMLElement = document.querySelector(".navigation") as HTMLElement
+    private nextBtn: HTMLElement = document.querySelector(".next") as HTMLElement
+    private prevBtn: HTMLElement = document.querySelector(".prev") as HTMLElement
+    private replayBtn: HTMLElement = document.querySelector(".replay") as HTMLElement
 
     sources: any
     initPartTwo: boolean
@@ -31,9 +32,7 @@ export default class SequenceManager2 {
     constructor() {
 
         // dom
-        this.nextBtn = document.querySelector(".next") as HTMLElement
-        this.prevBtn = document.querySelector(".prev") as HTMLElement
-        this.replayBtn = document.querySelector(".replay") as HTMLElement
+        this.navigation.style.opacity = "1"
 
         // base
         this.experience = new Experience()

@@ -20,15 +20,68 @@ html, body, canvas, #app, .webgl {
     top: 0;
 }
 
+.navigation {
+    width: 40vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    position: fixed;
+    bottom: 50px;
+    left: 30vw;
+
+    .prev, .next {
+        width: 35px;
+        height: 35px;
+        border: none;
+        border-radius: 50%;
+        background-color: #3D2328;
+        opacity: .3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 30px;
+            padding-right: 3px;
+        }
+    }
+
+    .next img {
+        transform: rotateZ(180deg);
+        padding-bottom: 2px;
+        padding-right: 5px;
+    }
+
+    .replay {
+        width: 50px;
+        height: 50px;
+        border: none;
+        border-radius: 50%;
+        background-color: #3D2328;
+        opacity: .3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 30px;
+            padding-left: 1px;
+        }
+    }
+}
+
 .stepper {
     width: 60vw;
-    margin-left: 20vw;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     pointer-events: none;
     opacity: 0;
+    position: fixed;
+    top: 50px;
+    left: 20vw;
 
     .step-title {
         font-size: 16px;
@@ -64,5 +117,4 @@ html, body, canvas, #app, .webgl {
             z-index: 1;
         }
     }
-
 }
