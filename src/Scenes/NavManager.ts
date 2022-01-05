@@ -1,4 +1,5 @@
-import { gsap } from "gsap";
+import gsap from "gsap";
+gsap.defaults({ ease: "none" });
 
 let instance: NavManager;
 
@@ -9,6 +10,7 @@ export default class NavManager {
 
     private sequenceNumber: number = 0;
     private percent: number = 0;
+    private barAnimation: any = null;
 
     constructor() {
         if (instance) {
@@ -33,9 +35,14 @@ export default class NavManager {
         this.percent = 100 / (this.bullets.length - 1) * (this.sequenceNumber - 1);
         let destination = 100 / (this.bullets.length - 1) * this.sequenceNumber;
 
-        gsap.fromTo(this, {percent: this.percent}, {percent: destination, duration: duration, onUpdate: () => {
+        this.barAnimation?.kill();
+
+        this.barAnimation = gsap.fromTo(this, {percent: this.percent}, {percent: destination, duration: duration, onUpdate: _ => {
             this.progressBar.style.background = `linear-gradient(to right, #3D2328 ${this.percent}%, #d4c5b2 ${this.percent}%)`;
+        }, onComplete: _ => {
+            this.bullets[this.sequenceNumber].style.backgroundColor = "#3D2328";
         }});
+        
     }
 
     globalView = (totalTimeSequence: Number, ) => {

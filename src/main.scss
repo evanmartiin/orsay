@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+$montserrat: 'Montserrat', sans-serif;
+
 html, body, #app {
     width: 100%;
     height: 100%;
@@ -28,6 +32,8 @@ html, body, canvas, #app, .webgl {
 
     .step-title {
         font-size: 16px;
+        font-family: $montserrat;
+        letter-spacing: 1.25px;
         color: #3D2328;
         text-transform: uppercase;
         margin: .7rem;
