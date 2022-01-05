@@ -55,12 +55,10 @@ export default class SequenceManager2 {
         // Variable globale pour incrémenter ou décrémenter les séquences
         this.sequenceNumber = 1;
 
-
         // Stash des infos de caméras de la séquence précédente, pour faire un replay
         this.oldCameraPos = null;
 
         
-
         this.sources = [
             {
                 sequenceNumber: 1,
@@ -153,7 +151,7 @@ export default class SequenceManager2 {
         console.log(this.currentSequence)
         console.log(this.sequenceNumber)
         
-        if(state !== "back")  this.oldSequence = this.currentSequence // celle à l'écran avant de la changer, on la sauvegarde
+         this.oldSequence = this.currentSequence // celle à l'écran avant de la changer, on la sauvegarde
         if(state !== "replay") this.initSequences()  // la nouvelle sequence, devient l'actuelle, sauf en cas de replay
        
     
@@ -216,8 +214,6 @@ export default class SequenceManager2 {
     nextSequence = () => {
     
         this.sequenceNumber += 1
-       this.changeSequence("next")
+        this.changeSequence("next")
     }
-
-
 }
