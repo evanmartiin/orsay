@@ -27,17 +27,13 @@ export default class NavManager {
         this.bullets.forEach((bullet, index) => {
             bullet.style.backgroundColor = index >= sequenceNumber ? "#d4c5b2" : "#3D2328";
         })
-
-        this.percent = 100 / (this.bullets.length - 1) * (sequenceNumber - 1);
-        this.progressBar.style.background = `linear-gradient(to right, #3D2328 ${this.percent}%, #d4c5b2 ${this.percent}%)`;
-        console.log(this.percent);
-        
     }
 
     animateBar(duration: number) {
+        this.percent = 100 / (this.bullets.length - 1) * (this.sequenceNumber - 1);
         let destination = 100 / (this.bullets.length - 1) * this.sequenceNumber;
 
-        gsap.to(this, {percent: destination, duration: duration, onUpdate: () => {
+        gsap.fromTo(this, {percent: this.percent}, {percent: destination, duration: duration, onUpdate: () => {
             this.progressBar.style.background = `linear-gradient(to right, #3D2328 ${this.percent}%, #d4c5b2 ${this.percent}%)`;
         }});
     }

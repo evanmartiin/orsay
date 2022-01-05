@@ -124,6 +124,8 @@ export default class SequenceManager2 {
     }
 
     initSequences = () => {
+        this.navManager.update(this.sequenceNumber)
+        
         if(this.sequenceNumber === 1) {
             this.currentSequence = new Sequence2(this.sources[0])
             this.oldCameraPos = this.currentSequence.sources.camera[0]
@@ -137,7 +139,6 @@ export default class SequenceManager2 {
             
         }
        
-        this.navManager.update(this.sequenceNumber)
     }
 
     addEvents = () => {
