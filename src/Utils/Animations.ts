@@ -2,7 +2,6 @@ import {getProject} from "@theatre/core"
 import studio from "@theatre/studio"
 import { gsap } from "gsap";
 
-
 export default class Animations {
     tl: any
     studio: any
