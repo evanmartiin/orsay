@@ -1,7 +1,6 @@
 import {getProject} from "@theatre/core"
 import studio from "@theatre/studio"
 
-
 export default class Animations {
     tl: any
     studio: any
@@ -13,11 +12,15 @@ export default class Animations {
             // the ID of the project is "My first project"
             "First project"
          )
+         console.log(proj);
+         
 
         const sheet = proj.sheet(
             // Our sheet is identified as "Scene"
             "Scene"
         )
+        console.log(sheet);
+        
 
         // create an object
         const obj = sheet.object(
@@ -34,6 +37,8 @@ export default class Animations {
                 baz: "A string",
             }
         )
+        console.log(obj);
+        
     }   
 
     hide = () => {

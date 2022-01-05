@@ -12,6 +12,7 @@ import Sources from './sources'
 //New
 import Device from '../Utils/Device'
 import Raycaster from '../Interactions/Raycaster'
+import Animations from '../Utils/Animations'
 
 declare global {
   interface Window {
@@ -38,8 +39,9 @@ export default class Experience
     public scene: Scene | null = null
     public loaders: Loaders | null = null
     public camera: Camera | null = null
-    private renderer: Renderer | null = null
+    public renderer: Renderer | null = null
     private world: World | null = null
+    private animations: Animations | null = null
 
     public raycaster: Raycaster | null = null
     public device: Device | null = null
@@ -68,6 +70,7 @@ export default class Experience
         this.camera = new Camera();
         this.renderer = new Renderer();
         this.world = new World();
+        this.animations = new Animations();
 
 
         this.raycaster = new Raycaster()
@@ -75,7 +78,7 @@ export default class Experience
         //todo a mettre dans le manager
         this.raycaster.callEvents()
 
-        new Promise((resolve, reject) => {
+        new Promise((resolve) => {
   
             setTimeout(resolve, 5000);
         }).then(() => {
@@ -93,7 +96,6 @@ export default class Experience
         this.time.on('tick', () =>
         {
             this.update()
-           
         })
 
       
@@ -111,9 +113,7 @@ export default class Experience
         this.camera?.update()
         this.world?.update()
         this.renderer?.update()
-        this.debug?.update()
-       
-        
+        this.debug?.update() 
     }
 
     destroy()

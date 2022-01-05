@@ -1,4 +1,5 @@
 import { CineonToneMapping, PCFSoftShadowMap, Scene, sRGBEncoding, WebGLRenderer } from 'three';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
 import Sizes from '../Utils/Sizes';
 import Camera from './Camera';
 import Experience from './Experience'
@@ -8,7 +9,6 @@ export default class Renderer
     private experience: Experience = new Experience();
     private canvas: HTMLCanvasElement = this.experience.canvas as HTMLCanvasElement;
     private sizes: Sizes = this.experience.sizes as Sizes;
-    private scene: Scene = this.experience.scene as Scene;
     private camera: Camera = this.experience.camera as Camera;
     public instance: WebGLRenderer | null = null;
 
@@ -43,7 +43,7 @@ export default class Renderer
     update()
     {
         if (this.camera.instance) {
-            this.instance?.render(this.scene, this.camera.instance)
+            this.experience.raycaster?.interactions.composer.render()
         }
     }
 }
