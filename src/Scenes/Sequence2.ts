@@ -9,8 +9,8 @@ export default class Sequence
     private camera: any
     public video: any
 
-    private sources: any
-    private type: string
+    public sources: any
+    public type: string
     public mesh: any
     public prevMesh:any
     public nextMesh:any
@@ -102,14 +102,14 @@ export default class Sequence
         this.camera.position.y = this.sources.camera[0].pos_y, 
         this.camera.position.z = this.sources.camera[0].pos_z
 
-        this.camera.rotation.x = this.sources.camera[1].rot_x
-        this.camera.rotation.y = this.sources.camera[1].rot_y
-        this.camera.rotation.z = this.sources.camera[1].rot_z
+        this.camera.rotation.x = this.sources.camera[0].rot_x
+        this.camera.rotation.y = this.sources.camera[0].rot_y
+        this.camera.rotation.z = this.sources.camera[0].rot_z
 
-        this.camera.quaternion.w = this.sources.camera[2].quat_w
-        this.camera.quaternion.x = this.sources.camera[2].quat_x
-        this.camera.quaternion.y = this.sources.camera[2].quat_y
-        this.camera.quaternion.z = this.sources.camera[2].quat_z
+        this.camera.quaternion.w = this.sources.camera[0].quat_w
+        this.camera.quaternion.x = this.sources.camera[0].quat_x
+        this.camera.quaternion.y = this.sources.camera[0].quat_y
+        this.camera.quaternion.z = this.sources.camera[0].quat_z
 
     }
 

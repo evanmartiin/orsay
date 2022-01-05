@@ -25,7 +25,6 @@ export default class Animations {
     // test pour cacher et afficher la nouvelle video
     hideAndShow = (obj:any, obj2:any, status:string) => {
 
-        
         // on cache l'ancien, on montre le nouveau
         if(status === "next") {
             this.tl.to(obj.position, {x: -5, duration: 0.6, ease:"power2.out"}, 0)
@@ -35,14 +34,27 @@ export default class Animations {
         } else {
             this.tl.reverse()
         }
-      
     }
 
-    cameraAnimation = (camera:any, cameraDestination: any, durationSequence: number) => {
-        this.tl.to(camera.position, {  z: cameraDestination[0].pos_z, y:cameraDestination[0].pos_y, x: cameraDestination[0].pos_x, duration: durationSequence}, 0)
-        this.tl.to(camera.rotation, {  z: cameraDestination[1].rot_z, y: cameraDestination[1].rot_y, x: cameraDestination[1].rot_x, duration: durationSequence}, 0)
-        this.tl.to(camera.quaternion, {  w: cameraDestination[2].quat_w, z: cameraDestination[2].quat_z, y: cameraDestination[2].quat_y, x: cameraDestination[2].quat_x, duration: durationSequence}, 0)
+    cameraAnimation = ( type: string, camera:any, cameraDestination: any, durationSequence?: number) => {
+        const tl = gsap.timeline()
+       
+        if(type === "normal") {
+            tl.to(camera.position, { z: cameraDestination.pos_z, y: cameraDestination.pos_y, x: cameraDestination.pos_x, duration: durationSequence,  ease:"power2.out"}, 0)
+            tl.to(camera.rotation, { z: cameraDestination.rot_z, y: cameraDestination.rot_y, x: cameraDestination.rot_x, duration: durationSequence,  ease:"power2.out"}, 0)
+            tl.to(camera.quaternion, { w: cameraDestination.quat_w, z: cameraDestination.quat_z, y: cameraDestination.quat_y, x: cameraDestination.quat_x, duration: durationSequence,  ease:"power2.out"}, 0)
+        
+        } else if(type === "reverse") {
+            console.log(camera)
+            tl.to(camera.position, { z: cameraDestination.pos_z, y:cameraDestination.pos_y, x: cameraDestination.pos_x, duration: 2,  ease:"power2.inOut"}, 0)
+            tl.to(camera.rotation, { z: cameraDestination.rot_z, y: cameraDestination.rot_y, x: cameraDestination.rot_x, duration: 2,  ease:"power2.inOut"}, 0)
+            tl.to(camera.quaternion, { w: cameraDestination.quat_w, z: cameraDestination.quat_z, y: cameraDestination.quat_y, x: cameraDestination.quat_x, duration: 2,  ease:"power2.inOut"}, 0)
+        }
+      
+        
     }
+
+    
 
     show = () => {
 

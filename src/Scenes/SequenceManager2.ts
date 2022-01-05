@@ -5,22 +5,22 @@ import Animations from '../Utils/Animations'
 
 export default class SequenceManager2 {   
     
-    currentSequence: number
     animations: Animations
     am: AudioManager
     nextBtn:any
     prevBtn: any
     replayBtn:any
 
-
     sources: any
     initPartTwo: boolean
     initPartThree: false
 
     //sequences
-    firstSequence: any
-    secondSequence:any
-    thirdSequence:any
+    currentSequence: any
+    oldSequence: any
+    oldCameraPos: any
+    sequenceNumber:any
+    sequence: any
 
     private experience: Experience = new Experience();
     private camera: any
@@ -38,18 +38,26 @@ export default class SequenceManager2 {
         this.scene = this.experience.scene
         this.camera = this.experience.camera?.instance
         
-
         // Audio
         this.am = new AudioManager()
         this.animations = new Animations()
 
-        // variable pour lancer les étapes du projets (1. story - 2. AR - 3. Main custo)
+        // Variable pour lancer les étapes du projets (1. story - 2. AR - 3. Main custo)
         this.initPartTwo = false
         this.initPartThree = false
 
-        // sequences de la scene
-        this.firstSequence = null, this.secondSequence = null, this.thirdSequence = null
-        this.currentSequence = 1;
+        // Sequences de la scene, on a l'ancienne (qui s'est terminé) et la nouvelle, qui est en cours
+        this.oldSequence = null
+        this.currentSequence = null;
+
+        // Variable globale pour incrémenter ou décrémenter les séquences
+        this.sequenceNumber = 1;
+
+
+        // Stash des infos de caméras de la séquence précédente, pour faire un replay
+        this.oldCameraPos = null;
+
+        
 
         this.sources = [
             {
@@ -64,14 +72,10 @@ export default class SequenceManager2 {
                     {
                         pos_x: 0.72,
                         pos_y: 1.8,
-                        pos_z: -0.51
-                    },
-                    {
+                        pos_z: -0.51,
                         rot_x:  -1.57,
                         rot_y:  -0,
-                        rot_z: -1.6
-                    },
-                    {
+                        rot_z: -1.6,
                         quat_w:  0.5,
                         quat_x:  -0.5,
                         quat_y:  -0.5,
@@ -93,45 +97,46 @@ export default class SequenceManager2 {
                 sequenceNumber: 3,
                 nameSequence: 'Atelier',
                 type: "3D",
-                audio: [],
-
-                // coordonnées de destination 
+                audio: [],   
                 camera: [ 
+        
+                    // coordonnées de destination 
                     {
                         pos_x: -0.78,
                         pos_y:  1.85,
-                        pos_z: 2.5
-                    },
-                    {
+                        pos_z: 2.5,
                         rot_x:  -0.08,
                         rot_y:  -0.43,
-                        rot_z: -0.03
-                    },
-                    {
+                        rot_z: -0.03,
                         quat_w:  0.97,
                         quat_x:  -0.03,
                         quat_y: -0.21,
                         quat_z: -0.008
-                    },
+                    }
+                   
+                    
                 ]
             },
         ]
 
-        
+        // on lance la première scene
         this.initSequences()
         this.addEvents()
     }
 
     initSequences = () => {
 
-        if(this.currentSequence === 1) {
-            this.firstSequence = new Sequence2(this.sources[0])
+        if(this.sequenceNumber === 1) {
+            this.currentSequence = new Sequence2(this.sources[0])
+            this.oldCameraPos = this.currentSequence.sources.camera[0]
 
-        } else if(this.currentSequence === 2) {
-            this.secondSequence = new Sequence2(this.sources[1])
-       
-        } else if(this.currentSequence === 3) {
-            this.thirdSequence = new Sequence2(this.sources[2])
+        } else if(this.sequenceNumber === 2) {
+            this.currentSequence = new Sequence2(this.sources[1])
+            
+
+        } else if(this.sequenceNumber === 3) {
+            this.currentSequence = new Sequence2(this.sources[2])
+            
         }
        
     }
@@ -143,83 +148,78 @@ export default class SequenceManager2 {
     }
 
 
-    changeSequence = (currentSequence: any,  state: string) => {
+    changeSequence = (state: string) => {
+        console.log(this.currentSequence)
+        console.log(this.sequenceNumber)
 
-        let sequence;
-
-        // on choppe la bonne séquence
-        if(currentSequence === 1) {
-            sequence = this.firstSequence
-        } else if(currentSequence === 2) {
-            sequence = this.secondSequence
-        } else if(currentSequence === 3) {
-            sequence = this.thirdSequence
-        }
-
+        // celle à l'écran
+        this.oldSequence = this.currentSequence
+        
+        
+        if(state !== "replay") this.initSequences()  // la nouvelle sequence, devient l'actuelle, sauf en cas de replay
+  
+        /* SCENE REPLAY */
 
         if(state === "replay") {
 
-            if(sequence.type === '2D') {
+                if(this.currentSequence.type === '2D') {
                 
-                //rebuild mesh pour rejouer la sequence video sur le plane
-                sequence.createVideo()
-                sequence.setCameraStartSequence()
-            } else {
-                // if 3d take camera to point
-                // ça fade au black puis ça revient sur la position de base, et ça relance
-                this.animations.cameraAnimation(this.camera, [sequence.camera[1], sequence.camera[2], sequence.camera[3]], 20)
-            }
-        }
+                    this.oldSequence.createVideo() //rebuild mesh pour rejouer la sequence video sur le plane
+                       
+                } else if(this.currentSequence.type === '3D') {
+                   
+                    this.currentSequence.setCameraStartSequence(this.oldCameraPos)  // si 3d, on revient sur les pos de bases
+                }
 
-        if(state === "next") {
-            // sequence.destroy()
-            this.currentSequence += 1
-            this.initSequences()
-            // console.log(sequence.mesh)
-            // console.log(sequence.nextMesh)
+        /* SCENE SUIVANTE */
 
-            if(sequence.type === '2D') {
-                
-                this.animations.hideAndShow(sequence.mesh, sequence.nextMesh, "next")
-            } else {
-                // if 3d take camera to point
-                // ça fade au black puis ça revient sur la position de base, et ça relance
-                this.animations.cameraAnimation(this.camera, [sequence.camera[1], sequence.camera[2], sequence.camera[3]], 20)
-            }
-
-          
-          
-        }
-
-        if(state === "back") {
-            // sequence.destroy()
-            this.currentSequence -= 1
-            this.initSequences()
+        } else if(state === "next") {
             
-            this.animations.hideAndShow(sequence.mesh, sequence.prevMesh, "prev")
+                if(this.currentSequence.type === '2D') {
+                
+                    this.animations.hideAndShow(this.oldSequence.mesh, this.currentSequence.mesh, "next")
+                } else {
+                  
+                    this.animations.cameraAnimation("normal", this.camera, this.currentSequence.sources.camera[0], 10)
+                }
+
+
+        /* SCENE PRECEDENTE */
+
+        } else if(state === "back") {
+                // sequence.destroy()
+                console.log(this.oldCameraPos)
+
+                if(this.oldSequence.type === '2D') {
+                    
+                    this.animations.hideAndShow(this.currentSequence.mesh, this.currentSequence.prevMesh, "prev")
+
+                } else if(this.oldSequence.type === '3D') {
+                    
+                    this.animations.cameraAnimation("reverse", this.camera, this.oldCameraPos)
+                }
         }
+            
+       
+    
     }
 
-
-    endOfSequence = () => {
-
-    }
 
 
     replaySequence = () => {
-
-        this.changeSequence(this.currentSequence, "replay")
+        this.changeSequence("replay")
     }
 
     prevSequence = () => {
-
-        this.changeSequence(this.currentSequence, "back")
+        this.sequenceNumber -= 1
+        this.changeSequence( "back")
         
     }
 
     nextSequence = () => {
     
-       this.changeSequence(this.currentSequence, "next")
+        this.sequenceNumber += 1
+       this.changeSequence("next")
     }
 
 
