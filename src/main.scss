@@ -15,3 +15,48 @@ html, body, canvas, #app, .webgl {
     z-index: 2;
     top: 0;
 }
+
+.stepper {
+    width: 60vw;
+    margin-left: 20vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+    opacity: 0;
+
+    .step-title {
+        font-size: 16px;
+        color: #3D2328;
+        text-transform: uppercase;
+        margin: .7rem;
+    }
+
+    .progress {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        width: 100%;
+
+        .bar {
+            width: 96%;
+            left: 2%;
+            top: 3px;
+            height: 2px;
+            background: linear-gradient(to right, #3D2328 50%, #d4c5b2 50%);
+            position: absolute;
+        }
+    
+        .bullet {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #3D2328;
+            z-index: 1;
+        }
+    }
+
+}
