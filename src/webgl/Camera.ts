@@ -16,7 +16,7 @@ export default class Camera
     constructor()
     {
         this.setInstance()
-        //this.setControls()
+        this.setControls()
     }
 
 

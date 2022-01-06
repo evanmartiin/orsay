@@ -48,7 +48,7 @@ export default class NavManager {
         let destination = 100 / (this.bullets.length - 1) * this.sequenceNumber;
 
         this.barAnimation?.kill();
-        this.navigation.style.opacity = "0";
+        // this.navigation.style.opacity = "0";
         // this.navigation.style.pointerEvents = "none";
         
         this.barAnimation = gsap.fromTo(this, {percent: this.percent}, {percent: destination, duration: duration, onUpdate: _ => {
