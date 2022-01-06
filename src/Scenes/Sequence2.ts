@@ -1,4 +1,4 @@
-import { MeshBasicMaterial,  Scene, VideoTexture, LinearFilter, RGBFormat } from "three";
+import { MeshBasicMaterial,  Scene, VideoTexture, LinearFilter, RGBFormat, ShaderMaterial, FrontSide } from "three";
 import Experience from "../webgl/Experience";
 import NavManager from "./NavManager";
 
@@ -82,13 +82,40 @@ export default class Sequence
         texture.minFilter = LinearFilter;
         texture.magFilter = LinearFilter;
         texture.format = RGBFormat;
+        
+        const vertex = /* glsl */`
+            varying vec2 vUv;
+
+            void main() {
+                vUv = uv;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.);
+            }
+        `
+        const fragment = /* glsl */`
+            uniform sampler2D uTexture;
+
+            varying vec2 vUv;
+
+            void main() {
+                vec4 finalTexture = texture2D(uTexture, 1. - vUv.yx);
+
+                gl_FragColor = finalTexture;
+            }
+        `
        
-        const material = new MeshBasicMaterial({
-            map: texture,
+        // const material = new MeshBasicMaterial({
+        //     map: texture,
+        // })
+        const material = new ShaderMaterial({
+            vertexShader: vertex,
+            fragmentShader: fragment,
+            uniforms: {
+                uTexture: { value: texture }
+            },
+            side: FrontSide
         })
 
        this.mesh.material = material
-
     }
 
 
@@ -105,6 +132,8 @@ export default class Sequence
     setCameraStartSequence = () => {
     
         // TODO faire ça avec les transitions en theatre.js ou avec du lerp
+        console.log(this.sources.camera[0]);
+        
         
         this.camera.position.x = this.sources.camera[0].pos_x, 
         this.camera.position.y = this.sources.camera[0].pos_y, 
@@ -114,10 +143,6 @@ export default class Sequence
         this.camera.rotation.y = this.sources.camera[0].rot_y
         this.camera.rotation.z = this.sources.camera[0].rot_z
 
-        this.camera.quaternion.w = this.sources.camera[0].quat_w
-        this.camera.quaternion.x = this.sources.camera[0].quat_x
-        this.camera.quaternion.y = this.sources.camera[0].quat_y
-        this.camera.quaternion.z = this.sources.camera[0].quat_z
 
     }
 

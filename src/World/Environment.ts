@@ -1,3 +1,4 @@
+import GUI from 'lil-gui';
 import { DirectionalLight, Scene } from 'three';
 import Debug from '../Utils/Debug';
 import Experience from '../webgl/Experience'
@@ -7,7 +8,7 @@ export default class Environment
     private experience: Experience = new Experience();
     private scene: Scene = this.experience.scene as Scene;
     private debug: Debug = this.experience.debug as Debug;
-    private debugFolder: any;
+    private debugFolder: GUI | undefined = undefined;
     private sunLight: DirectionalLight | null = null;
 
     constructor()
@@ -16,6 +17,8 @@ export default class Environment
         if(this.debug.active)
         {
             this.debugFolder = this.debug.ui?.addFolder('environment')
+            console.log(this.debugFolder);
+            
         }
 
         this.setSunLight()
@@ -32,7 +35,7 @@ export default class Environment
         this.scene.add(this.sunLight)
 
         // Debug
-        if(this.debug.active)
+        if(this.debugFolder && this.debug.active)
         {
             this.debugFolder
                 .add(this.sunLight, 'intensity')

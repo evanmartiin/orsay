@@ -65,16 +65,12 @@ export default class SequenceManager2 {
                 audio: [],
                 camera: [
                     {
-                        pos_x: 0.72,
-                        pos_y: 1.8,
-                        pos_z: -0.51,
-                        rot_x:  -1.57,
-                        rot_y:  -0,
-                        rot_z: -1.6,
-                        quat_w:  0.5,
-                        quat_x:  -0.5,
-                        quat_y:  -0.5,
-                        quat_z: -0.5
+                        pos_x: 4.488,
+                        pos_y: .229,
+                        pos_z: -.588,
+                        rot_x: -1.55,
+                        rot_y: .017,
+                        rot_z: .165,
                     },
                 ]
             },

@@ -5,7 +5,7 @@ const Sources: ISource[] = [
     {
         name: 'atelierModel',
         type: 'gltfModel',
-        path: '/models/bureau-AN-s.glb'
+        path: '/models/bureau-AN.glb'
     },
 
 ]

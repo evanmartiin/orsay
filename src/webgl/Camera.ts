@@ -3,20 +3,30 @@ import { PerspectiveCamera, Scene } from 'three';
 import Experience from './Experience'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import Sizes from '../Utils/Sizes';
+import Debug from '../Utils/Debug';
+import GUI from 'lil-gui';
 
 export default class Camera
 {
     private experience: Experience = new Experience();
     private sizes: Sizes = this.experience.sizes as Sizes;
     private scene: Scene = this.experience.scene as Scene;
+    private debug: Debug = this.experience.debug as Debug;
+    private debugFolder: GUI | undefined = undefined;
     private canvas: HTMLCanvasElement = this.experience.canvas as HTMLCanvasElement;
     public instance: PerspectiveCamera | null = null;
     public controls: OrbitControls | null = null;
 
     constructor()
     {
+        // Debug
+        if(this.debug.active)
+        {
+            this.debugFolder = this.debug.ui?.addFolder('Camera')
+        }
         this.setInstance()
-        this.setControls()
+        // this.setControls()
+
     }
 
 
@@ -24,9 +34,55 @@ export default class Camera
     setInstance()
     {
         this.instance = new PerspectiveCamera(50, this.sizes.width / this.sizes.height, 0.1, 100)
-        this.instance.position.set(6, 4, 8)
         this.scene.add(this.instance)
+        console.log(this.instance);
         
+        
+        if(this.debugFolder && this.debug.active)
+        {
+            this.debugFolder
+                .add(this.instance.position, 'x')
+                .name('position.x')
+                .min(3)
+                .max(5)
+                .step(0.001)
+
+            this.debugFolder
+                .add(this.instance.position, 'y')
+                .name('position.y')
+                .min(-15)
+                .max(15)
+                .step(0.001)
+
+            this.debugFolder
+                .add(this.instance.position, 'z')
+                .name('position.z')
+                .min(-15)
+                .max(15)
+                .step(0.001)
+
+
+            this.debugFolder
+                .add(this.instance.rotation, 'x')
+                .name('rotation.x')
+                .min(-2)
+                .max(2)
+                .step(0.001)
+
+            this.debugFolder
+                .add(this.instance.rotation, 'y')
+                .name('rotation.y')
+                .min(-1)
+                .max(1)
+                .step(0.001)
+
+            this.debugFolder
+                .add(this.instance.rotation, 'z')
+                .name('rotation.z')
+                .min(-1)
+                .max(1)
+                .step(0.001)
+        }
     }
 
     setControls()
