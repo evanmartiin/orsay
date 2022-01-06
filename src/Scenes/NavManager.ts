@@ -34,6 +34,13 @@ export default class NavManager {
             bullet.style.backgroundColor = index >= sequenceNumber ? "#d4c5b2" : "#3D2328";
         })
         this.stepperTitle.innerHTML = this.titles[sequenceNumber - 1];
+
+        this.percent = 100 / (this.bullets.length - 1) * (sequenceNumber - 1);
+        console.log(this.percent);
+        
+        this.barAnimation?.kill();
+        
+        this.progressBar.style.background = `linear-gradient(to right, #3D2328 ${this.percent}%, #d4c5b2 ${this.percent}%)`;
     }
 
     animateBar(duration: number) {
