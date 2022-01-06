@@ -3,6 +3,7 @@ import AudioManager from './AudioManager'
 import Experience from '../webgl/Experience'
 import Animations from '../Utils/Animations'
 import NavManager from './NavManager'
+import { gsap } from "gsap";
 
 export default class SequenceManager2 {   
     
@@ -82,7 +83,16 @@ export default class SequenceManager2 {
                 previousMesh: 'sequence-1_1',
                 meshAlreadyInsideScene: 'sequence-2_1',
                 audio: [],
-                camera: []
+                camera: [
+                    {
+                        pos_x: 5.865,
+                        pos_y: .229,
+                        pos_z: -.033,
+                        rot_x: -1.55,
+                        rot_y: .017,
+                        rot_z: -.302,
+                    },
+                ]
             },
             {
                 sequenceNumber: 3,
@@ -171,25 +181,29 @@ export default class SequenceManager2 {
         /* SCENE SUIVANTE */
 
         } else if(state === "next") {
+            const orig = this.sources[this.sequenceNumber - 2].camera[0];
+            const dest = this.sources[this.sequenceNumber - 1].camera[0];
             
                 if(this.currentSequence.type === '2D') {
-                
-                    this.animations.hideAndShow(this.oldSequence.mesh, this.currentSequence.mesh, "next")
+                    gsap.fromTo(this.camera.position, { x: orig.pos_x, y: orig.pos_y, z: orig.pos_z }, { x: dest.pos_x, y: dest.pos_y, z: dest.pos_z, duration: 1 })
+                    gsap.fromTo(this.camera.rotation, { x: orig.rot_x, y: orig.rot_y, z: orig.rot_z }, { x: dest.rot_x, y: dest.rot_y, z: dest.rot_z, duration: 1 })
                 } else {
-                  
-                    this.animations.cameraAnimation("normal", this.camera, this.currentSequence.sources.camera[0], 10)
+                    
+                    this.animations.cameraAnimation("normal", this.camera, this.currentSequence.sources.camera[0], 2)
                 }
-
-
-        /* SCENE PRECEDENTE */
-
-        } else if(state === "back") {
+                
+                
+                /* SCENE PRECEDENTE */
+                
+            } else if(state === "back") {
+                const orig = this.sources[this.sequenceNumber - 1].camera[0];
+                const dest = this.sources[this.sequenceNumber].camera[0];
                 // sequence.destroy()
-                console.log(this.oldSequence.mesh, this.currentSequence.prevMesh)
-
+                
                 if(this.oldSequence.type === '2D') {
                     
-                    this.animations.hideAndShow(this.currentSequence.mesh, this.currentSequence.prevMesh, "prev")
+                    gsap.fromTo(this.camera.position, { x: dest.pos_x, y: dest.pos_y, z: dest.pos_z }, { x: orig.pos_x, y: orig.pos_y, z: orig.pos_z, duration: 1 })
+                    gsap.fromTo(this.camera.rotation, { x: dest.rot_x, y: dest.rot_y, z: dest.rot_z }, { x: orig.rot_x, y: orig.rot_y, z: orig.rot_z, duration: 1 })
 
                 } else if(this.oldSequence.type === '3D') {
                     

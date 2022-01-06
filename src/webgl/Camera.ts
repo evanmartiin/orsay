@@ -43,44 +43,44 @@ export default class Camera
             this.debugFolder
                 .add(this.instance.position, 'x')
                 .name('position.x')
-                .min(3)
-                .max(5)
+                .min(-10)
+                .max(10)
                 .step(0.001)
 
             this.debugFolder
                 .add(this.instance.position, 'y')
                 .name('position.y')
-                .min(-15)
-                .max(15)
+                .min(-10)
+                .max(10)
                 .step(0.001)
 
             this.debugFolder
                 .add(this.instance.position, 'z')
                 .name('position.z')
-                .min(-15)
-                .max(15)
+                .min(-10)
+                .max(10)
                 .step(0.001)
 
 
             this.debugFolder
                 .add(this.instance.rotation, 'x')
                 .name('rotation.x')
-                .min(-2)
-                .max(2)
+                .min(-10)
+                .max(10)
                 .step(0.001)
 
             this.debugFolder
                 .add(this.instance.rotation, 'y')
                 .name('rotation.y')
-                .min(-1)
-                .max(1)
+                .min(-10)
+                .max(10)
                 .step(0.001)
 
             this.debugFolder
                 .add(this.instance.rotation, 'z')
                 .name('rotation.z')
-                .min(-1)
-                .max(1)
+                .min(-10)
+                .max(10)
                 .step(0.001)
         }
     }
