@@ -39,12 +39,14 @@ export default class NavManager {
 
         this.barAnimation?.kill();
         this.navigation.style.opacity = "0";
-
+        this.navigation.style.pointerEvents = "none";
+        
         this.barAnimation = gsap.fromTo(this, {percent: this.percent}, {percent: destination, duration: duration, onUpdate: _ => {
             this.progressBar.style.background = `linear-gradient(to right, #3D2328 ${this.percent}%, #d4c5b2 ${this.percent}%)`;
         }, onComplete: _ => {
             this.bullets[this.sequenceNumber].style.backgroundColor = "#3D2328";
             this.navigation.style.opacity = "1";
+            this.navigation.style.pointerEvents = "all";
         }});
         
     }

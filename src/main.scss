@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Unna&display=swap');
 
 $montserrat: 'Montserrat', sans-serif;
+$unna: 'Unna', serif;
 
 html, body, #app {
     width: 100%;
@@ -11,6 +12,47 @@ html, body, canvas, #app, .webgl {
     margin: 0;
     padding: 0;
     overflow: hidden;
+}
+
+.home {
+    width: 70vw;
+    padding: 10vh 15vw;
+    height: 80vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: center / cover no-repeat url("/images/bg.png");
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+    h1 {
+        font-family: $unna;
+        font-size: 40px;
+        text-align: center;
+        margin: 0;
+    }
+
+    img {
+        width: 20vw;
+    }
+
+    button {
+        height: 35px;
+        padding: 0 15px;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 50px;
+        color: #FFF0DB;
+        font-family: $montserrat;
+        letter-spacing: 1.25px;
+        background-color: #3D2328;
+        opacity: .3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 .step-1 {
@@ -36,6 +78,7 @@ html, body, canvas, #app, .webgl {
     align-items: center;
     justify-content: space-between;
     opacity: 0;
+    pointer-events: none;
     position: fixed;
     bottom: 50px;
     left: 30vw;
