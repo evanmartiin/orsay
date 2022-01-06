@@ -216,8 +216,9 @@ export default class SequenceManager2 {
     }
 
     nextSequence = () => {
-    
-        this.sequenceNumber += 1
-        this.changeSequence("next")
+        if (this.sequenceNumber < this.sources.length) {
+            this.sequenceNumber += 1
+            this.changeSequence("next")
+        }
     }
 }
