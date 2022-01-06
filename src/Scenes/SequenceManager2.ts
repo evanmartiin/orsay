@@ -102,16 +102,12 @@ export default class SequenceManager2 {
                 camera: [ 
                     // coordonnées de destination 
                     {
-                        pos_x: -0.78,
+                        pos_x: -3.274,
                         pos_y:  1.85,
-                        pos_z: 2.5,
-                        rot_x:  -0.08,
-                        rot_y:  -0.43,
-                        rot_z: -0.03,
-                        quat_w:  0.97,
-                        quat_x:  -0.03,
-                        quat_y: -0.21,
-                        quat_z: -0.008
+                        pos_z: 10,
+                        rot_x:  -.325,
+                        rot_y:  -.57,
+                        rot_z: -.161,
                     }
                    
                 ]
@@ -184,31 +180,19 @@ export default class SequenceManager2 {
             const orig = this.sources[this.sequenceNumber - 2].camera[0];
             const dest = this.sources[this.sequenceNumber - 1].camera[0];
             
-                if(this.currentSequence.type === '2D') {
-                    gsap.fromTo(this.camera.position, { x: orig.pos_x, y: orig.pos_y, z: orig.pos_z }, { x: dest.pos_x, y: dest.pos_y, z: dest.pos_z, duration: 1 })
-                    gsap.fromTo(this.camera.rotation, { x: orig.rot_x, y: orig.rot_y, z: orig.rot_z }, { x: dest.rot_x, y: dest.rot_y, z: dest.rot_z, duration: 1 })
-                } else {
-                    
-                    this.animations.cameraAnimation("normal", this.camera, this.currentSequence.sources.camera[0], 2)
-                }
+            gsap.fromTo(this.camera.position, { x: orig.pos_x, y: orig.pos_y, z: orig.pos_z }, { x: dest.pos_x, y: dest.pos_y, z: dest.pos_z, duration: 1 })
+            gsap.fromTo(this.camera.rotation, { x: orig.rot_x, y: orig.rot_y, z: orig.rot_z }, { x: dest.rot_x, y: dest.rot_y, z: dest.rot_z, duration: 1 })
                 
                 
-                /* SCENE PRECEDENTE */
+        /* SCENE PRECEDENTE */
                 
-            } else if(state === "back") {
-                const orig = this.sources[this.sequenceNumber - 1].camera[0];
-                const dest = this.sources[this.sequenceNumber].camera[0];
-                // sequence.destroy()
-                
-                if(this.oldSequence.type === '2D') {
-                    
-                    gsap.fromTo(this.camera.position, { x: dest.pos_x, y: dest.pos_y, z: dest.pos_z }, { x: orig.pos_x, y: orig.pos_y, z: orig.pos_z, duration: 1 })
-                    gsap.fromTo(this.camera.rotation, { x: dest.rot_x, y: dest.rot_y, z: dest.rot_z }, { x: orig.rot_x, y: orig.rot_y, z: orig.rot_z, duration: 1 })
-
-                } else if(this.oldSequence.type === '3D') {
-                    
-                    this.animations.cameraAnimation("reverse", this.camera, this.oldCameraPos)
-                }
+        } else if(state === "back") {
+            const orig = this.sources[this.sequenceNumber - 1].camera[0];
+            const dest = this.sources[this.sequenceNumber].camera[0];
+            // sequence.destroy()
+            
+            gsap.fromTo(this.camera.position, { x: dest.pos_x, y: dest.pos_y, z: dest.pos_z }, { x: orig.pos_x, y: orig.pos_y, z: orig.pos_z, duration: 1 })
+            gsap.fromTo(this.camera.rotation, { x: dest.rot_x, y: dest.rot_y, z: dest.rot_z }, { x: orig.rot_x, y: orig.rot_y, z: orig.rot_z, duration: 1 })
         }
         
     }
