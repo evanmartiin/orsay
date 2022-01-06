@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+$montserrat: 'Montserrat', sans-serif;
+
 html, body, #app {
     width: 100%;
     height: 100%;
@@ -25,4 +29,102 @@ html, body, canvas, #app, .webgl {
     left: 50%;
     opacity: 0;
     transform: translateX(-50%);
+}
+.navigation {
+    width: 40vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    position: fixed;
+    bottom: 50px;
+    left: 30vw;
+
+    .prev, .next {
+        width: 35px;
+        height: 35px;
+        border: none;
+        border-radius: 50%;
+        background-color: #3D2328;
+        opacity: .3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 30px;
+            padding-right: 3px;
+        }
+    }
+
+    .next img {
+        transform: rotateZ(180deg);
+        padding-bottom: 2px;
+        padding-right: 5px;
+    }
+
+    .replay {
+        width: 50px;
+        height: 50px;
+        border: none;
+        border-radius: 50%;
+        background-color: #3D2328;
+        opacity: .3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 30px;
+            padding-left: 1px;
+        }
+    }
+}
+
+.stepper {
+    width: 60vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+    opacity: 0;
+    position: fixed;
+    top: 50px;
+    left: 20vw;
+
+    .step-title {
+        font-size: 16px;
+        font-family: $montserrat;
+        letter-spacing: 1.25px;
+        color: #3D2328;
+        text-transform: uppercase;
+        margin: .7rem;
+    }
+
+    .progress {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        width: 100%;
+
+        .bar {
+            width: 96%;
+            left: 2%;
+            top: 3px;
+            height: 2px;
+            background: linear-gradient(to right, #3D2328 50%, #d4c5b2 50%);
+            position: absolute;
+        }
+    
+        .bullet {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #3D2328;
+            z-index: 1;
+        }
+    }
 }

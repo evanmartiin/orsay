@@ -2,14 +2,16 @@ import Sequence2 from './Sequence2'
 import AudioManager from './AudioManager'
 import Experience from '../webgl/Experience'
 import Animations from '../Utils/Animations'
+import NavManager from './NavManager'
 
 export default class SequenceManager2 {   
     
     animations: Animations
     am: AudioManager
-    nextBtn:any
-    prevBtn: any
-    replayBtn:any
+    private navigation: HTMLElement = document.querySelector(".navigation") as HTMLElement
+    private nextBtn: HTMLElement = document.querySelector(".next") as HTMLElement
+    private prevBtn: HTMLElement = document.querySelector(".prev") as HTMLElement
+    private replayBtn: HTMLElement = document.querySelector(".replay") as HTMLElement
 
     sources: any
     initPartTwo: boolean
@@ -25,13 +27,12 @@ export default class SequenceManager2 {
     private experience: Experience = new Experience();
     private camera: any
     private scene: any
+    private navManager: NavManager = new NavManager();
 
     constructor() {
 
         // dom
-        this.nextBtn = document.querySelector(".next")
-        this.prevBtn = document.querySelector(".prev")
-        this.replayBtn = document.querySelector(".replay")
+        this.navigation.style.opacity = "1"
 
         // base
         this.experience = new Experience()
@@ -118,14 +119,17 @@ export default class SequenceManager2 {
         // on lance la première scene
         this.initSequences()
         this.addEvents()
+        this.navManager.init();
     }
 
     initSequences = () => {
         // on pause tous les sons
-      
+        this.am.sound.pause()
 
+        this.navManager.update(this.sequenceNumber)
+        
         if(this.sequenceNumber === 1) {
-            this.am.sound.pause()
+           
             this.currentSequence = new Sequence2(this.sources[0])
             this.oldCameraPos = this.currentSequence.sources.camera[0]
             this.am.sound.play('elon')

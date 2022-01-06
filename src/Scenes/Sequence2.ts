@@ -1,11 +1,13 @@
 import { MeshBasicMaterial,  Scene, VideoTexture, LinearFilter, RGBFormat } from "three";
 import Experience from "../webgl/Experience";
+import NavManager from "./NavManager";
 
 
 export default class Sequence
 {
     private experience: Experience = new Experience();
     private scene: Scene = this.experience.scene as Scene;
+    private navManager: NavManager = new NavManager();
     private camera: any
     public video: any
 
@@ -69,6 +71,11 @@ export default class Sequence
         this.video.src = this.sources.source
         this.video.autoplay = true
         this.video.loop = false
+        this.video.onloadedmetadata = () => {
+            this.navManager.animateBar(this.video.duration);
+        }
+        
+        
         // this.video.play();
 
         const texture = new VideoTexture(this.video);
