@@ -82,6 +82,7 @@ html, body, canvas, #app, .webgl {
     position: fixed;
     bottom: 50px;
     left: 30vw;
+    z-index: 3;
 
     .prev, .next {
         width: 35px;

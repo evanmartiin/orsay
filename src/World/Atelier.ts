@@ -43,7 +43,7 @@ export default class Atelier
                 child.castShadow = true
 
                 if(child.name) {
-                    // console.log(child.name)
+                    console.log(child.name)
                 }
             }
             

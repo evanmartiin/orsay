@@ -3,6 +3,7 @@ import AudioManager from './AudioManager'
 import Experience from '../webgl/Experience'
 import Animations from '../Utils/Animations'
 import NavManager from './NavManager'
+import { gsap } from "gsap";
 
 export default class SequenceManager2 {   
     
@@ -58,22 +59,18 @@ export default class SequenceManager2 {
             {
                 sequenceNumber: 1,
                 nameSequence: 'Esquisse',
-                source: '/videos/Croquis.mov', 
+                source: '/videos/Croquis.mp4', 
                 type: "2D",
                 meshAlreadyInsideScene: 'sequence-1_1',
                 nextMesh: 'sequence-2_1',
                 camera: [
                     {
-                        pos_x: 0.72,
-                        pos_y: 1.8,
-                        pos_z: -0.51,
-                        rot_x:  -1.57,
-                        rot_y:  -0,
-                        rot_z: -1.6,
-                        quat_w:  0.5,
-                        quat_x:  -0.5,
-                        quat_y:  -0.5,
-                        quat_z: -0.5
+                        pos_x: 4.488,
+                        pos_y: .229,
+                        pos_z: -.588,
+                        rot_x: -1.55,
+                        rot_y: .017,
+                        rot_z: .165,
                     },
                 ]
             },
@@ -84,7 +81,17 @@ export default class SequenceManager2 {
                 type: "2D",
                 previousMesh: 'sequence-1_1',
                 meshAlreadyInsideScene: 'sequence-2_1',
-                camera: []
+                audio: [],
+                camera: [
+                    {
+                        pos_x: 5.865,
+                        pos_y: .229,
+                        pos_z: -.033,
+                        rot_x: -1.55,
+                        rot_y: .017,
+                        rot_z: -.302,
+                    },
+                ]
             },
             {
                 sequenceNumber: 3,
@@ -93,16 +100,12 @@ export default class SequenceManager2 {
                 camera: [ 
                     // coordonnées de destination 
                     {
-                        pos_x: -0.78,
+                        pos_x: -3.274,
                         pos_y:  1.85,
-                        pos_z: 2.5,
-                        rot_x:  -0.08,
-                        rot_y:  -0.43,
-                        rot_z: -0.03,
-                        quat_w:  0.97,
-                        quat_x:  -0.03,
-                        quat_y: -0.21,
-                        quat_z: -0.008
+                        pos_z: 10,
+                        rot_x:  -.325,
+                        rot_y:  -.57,
+                        rot_z: -.161,
                     }
                    
                 ]
@@ -155,16 +158,15 @@ export default class SequenceManager2 {
     changeSequence = (state: string) => {
         console.log(this.currentSequence)
         console.log(this.sequenceNumber)
+        this.am.audioCleanUp()
         
-         this.oldSequence = this.currentSequence // celle à l'écran avant de la changer, on la sauvegarde
+        this.oldSequence = this.currentSequence // celle à l'écran avant de la changer, on la sauvegarde
         if(state !== "replay") this.initSequences()  // la nouvelle sequence, devient l'actuelle, sauf en cas de replay
        
     
         /* SCENE REPLAY */
 
         if(state === "replay") {
-
-                this.am.audioCleanUp()
 
                 if(this.sequenceNumber === 1) { this.am.audioStart('sequence1') }
                 else if(this.sequenceNumber === 2) { this.am.audioStart('sequence2') }
@@ -183,30 +185,23 @@ export default class SequenceManager2 {
         /* SCENE SUIVANTE */
 
         } else if(state === "next") {
+           
+            const orig = this.sources[this.sequenceNumber - 2].camera[0];
+            const dest = this.sources[this.sequenceNumber - 1].camera[0];
             
-                if(this.currentSequence.type === '2D') {
+            gsap.fromTo(this.camera.position, { x: orig.pos_x, y: orig.pos_y, z: orig.pos_z }, { x: dest.pos_x, y: dest.pos_y, z: dest.pos_z, duration: 1 })
+            gsap.fromTo(this.camera.rotation, { x: orig.rot_x, y: orig.rot_y, z: orig.rot_z }, { x: dest.rot_x, y: dest.rot_y, z: dest.rot_z, duration: 1 })
                 
-                    this.animations.hideAndShow(this.oldSequence.mesh, this.currentSequence.mesh, "next")
-                } else {
-                  
-                    this.animations.cameraAnimation("normal", this.camera, this.currentSequence.sources.camera[0], 10)
-                }
-
-
+                
         /* SCENE PRECEDENTE */
-
+                
         } else if(state === "back") {
-                // sequence.destroy()
-                console.log(this.oldSequence.mesh, this.currentSequence.prevMesh)
-
-                if(this.oldSequence.type === '2D') {
-                    
-                    this.animations.hideAndShow(this.currentSequence.mesh, this.currentSequence.prevMesh, "prev")
-
-                } else if(this.oldSequence.type === '3D') {
-                    
-                    this.animations.cameraAnimation("reverse", this.camera, this.oldCameraPos)
-                }
+            const orig = this.sources[this.sequenceNumber - 1].camera[0];
+            const dest = this.sources[this.sequenceNumber].camera[0];
+            // sequence.destroy()
+            
+            gsap.fromTo(this.camera.position, { x: dest.pos_x, y: dest.pos_y, z: dest.pos_z }, { x: orig.pos_x, y: orig.pos_y, z: orig.pos_z, duration: 1 })
+            gsap.fromTo(this.camera.rotation, { x: dest.rot_x, y: dest.rot_y, z: dest.rot_z }, { x: orig.rot_x, y: orig.rot_y, z: orig.rot_z, duration: 1 })
         }
         
     }
@@ -224,8 +219,9 @@ export default class SequenceManager2 {
     }
 
     nextSequence = () => {
-    
-        this.sequenceNumber += 1
-        this.changeSequence("next")
+        if (this.sequenceNumber < this.sources.length) {
+            this.sequenceNumber += 1
+            this.changeSequence("next")
+        }
     }
 }

@@ -31,7 +31,7 @@ export default class AudioManager {
                     id: 2,
                     displayFrom: 6,
                     hideAt: 11,
-                    content: "Cette oeuvre,  fascine encore aujourd’hui tant par sa conception que par ses symboles sous jacents. ",
+                    content: "Cette oeuvre, fascine encore aujourd’hui tant par sa conception que par ses symboles sous jacents. ",
                 },
                 {
                     id: 3,
@@ -56,7 +56,7 @@ export default class AudioManager {
                 },
                 {
                     id: 6,
-                    displayFrom: 11,
+                    displayFrom: 10.7,
                     hideAt: 14,
                     content: "Il fallait penser l’objet avant de démarrer la fabrication. ",
                 },
@@ -72,31 +72,31 @@ export default class AudioManager {
                 {
                     id: 8,
                     displayFrom: 4,
-                    hideAt: 8,
+                    hideAt: 12,
                     content: "Une fois la conception terminée, il pensa aux étapes de fabrication qui allaient mettre ses compétences de maitre verrier à rude épreuves.",
                 },
                 {
                     id: 9,
-                    displayFrom: 6,
-                    hideAt: 12,
+                    displayFrom: 12.5,
+                    hideAt: 17.5,
                     content: "Une oeuvre complexe comme celle ci implique de suivre un protocole de fabrication rigoureux. ",
                 },
                 {
                     id: 10,
-                    displayFrom: 12.5,
-                    hideAt: 16,
+                    displayFrom: 18,
+                    hideAt: 23,
                     content: "L’élaboration en atelier des œuvres pensées par Gallé connaissait une méthode récurrente. ",
                 },
                 {
                     id: 11,
-                    displayFrom: 17.5,
-                    hideAt: 18,
+                    displayFrom: 24,
+                    hideAt: 32,
                     content: "Il était habituel de réaliser plusieurs fois un même objet, pour s’assurer qu’au moins un exemplaire serait parfait même si l’on rencontrait un problème durant le processus de sa création. ",
                 },
                 {
                     id: 12,
-                    displayFrom: 18.5,
-                    hideAt: 19,
+                    displayFrom: 33,
+                    hideAt: 36,
                     content: "Ainsi, plusieurs mains aux algues ont été élaborées, il n’y en a pas que celle se trouvant au Musée d’Orsay.",
                 },
             ]

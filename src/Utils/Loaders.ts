@@ -2,6 +2,7 @@ import { TextureLoader } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { ISource } from '../webgl/Experience';
 import EventEmitter from './EventEmitter'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
 export default class Loaders extends EventEmitter
 {
@@ -27,6 +28,9 @@ export default class Loaders extends EventEmitter
     {
         this.loaders = {}
         this.loaders.gltfLoader = new GLTFLoader()
+        const dracoLoader = new DRACOLoader()
+        dracoLoader.setDecoderPath('/draco/')
+        this.loaders.gltfLoader.setDRACOLoader(dracoLoader)
         this.loaders.textureLoader = new TextureLoader()
     }
 
@@ -56,8 +60,6 @@ export default class Loaders extends EventEmitter
                         }
                     )
                 }
-
-                
             }
         }
     }
