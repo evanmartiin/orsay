@@ -5,6 +5,7 @@ let instance: NavManager;
 
 export default class NavManager {
     private stepper: HTMLElement = document.querySelector(".stepper") as HTMLElement
+    private stepperTitle: HTMLElement = document.querySelector(".step-title") as HTMLElement
     private progressBar: HTMLElement = document.querySelector(".bar") as HTMLElement
     private bullets: HTMLElement[] = Array.from(document.querySelector(".progress")?.getElementsByClassName("bullet") as HTMLCollection) as HTMLElement[]
 
@@ -13,6 +14,7 @@ export default class NavManager {
     private sequenceNumber: number = 0;
     private percent: number = 0;
     private barAnimation: any = null;
+    private titles: string[] = ["Esquisses", "Aquarelle", "Atelier"];
 
     constructor() {
         if (instance) {
@@ -31,6 +33,7 @@ export default class NavManager {
         this.bullets.forEach((bullet, index) => {
             bullet.style.backgroundColor = index >= sequenceNumber ? "#d4c5b2" : "#3D2328";
         })
+        this.stepperTitle.innerHTML = this.titles[sequenceNumber - 1];
     }
 
     animateBar(duration: number) {
@@ -39,7 +42,7 @@ export default class NavManager {
 
         this.barAnimation?.kill();
         this.navigation.style.opacity = "0";
-        this.navigation.style.pointerEvents = "none";
+        // this.navigation.style.pointerEvents = "none";
         
         this.barAnimation = gsap.fromTo(this, {percent: this.percent}, {percent: destination, duration: duration, onUpdate: _ => {
             this.progressBar.style.background = `linear-gradient(to right, #3D2328 ${this.percent}%, #d4c5b2 ${this.percent}%)`;
