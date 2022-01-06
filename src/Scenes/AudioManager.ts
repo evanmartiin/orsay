@@ -2,83 +2,117 @@
 import { Howl, Howler } from 'howler';
 
 export default class AudioManager {
-    subtitles: Object
+    subtitles: any
+    sound: Howler | null
+    subtitlesDom: any
+    howler: Howler
 
     constructor() {
-       
+
+        this.sound = null;
+        this.subtitlesDom = document.querySelector('.subtitles')
+        this.howler = Howler
         this.subtitles = {
-
             // Esquisse
-            sequence1: {
-                "part-1": "",
-                "part-2": "",
-            },
+            "elon": [
+                {
+                    id: 1,
+                    from: 0,
+                    to: 3,
+                    content: "This is Elon Musk",
+                },
+            ],
 
-            // Aquarelle
-            sequence2: {
-                "part-1": "",
-            },
+            "elon2": [
+                {
+                    id: 2,
+                    from: 3.2,
+                    to: 6,
+                    content: "Tesla Cofounder and CEO",
+                },
+            ]
 
-            // Atelier
-            sequence3: {
-                "part-1": "",
-            },
+           
         }
 
-        //this.audioSprites()
+        this.audioSprites()
     }
 
     audioSprites = () => {
-        const sound = new Howl({
-            src: ['/audios/elon.mp3'],
+        this.sound = new Howl({
+            src: [
+                "/audios/elonFinal.ogg",
+                "/audios/elonFinal.m4a",
+                "/audios/elonFinal.mp3",
+                "/audios/elonFinal.ac3"
+              ],
             sprite: {
-              
-              // offset, duration
-              esquisse1: [0, 3000],
-              esquisse2: [4000, 5000],
-              esquisse3: [9000, 6000],
-            }
-        });
+                elon: [
+                  0,
+                  99346.59863945578
+                ],
+                elon2: [
+                  101000,
+                  99346.59863945578
+                ],
+                elon3: [
+                  202000,
+                  99346.5986394558
+                ]
+            },
 
-        const esquisse1 = sound.sprite.esquisse1
-        const esquisse2 = sound.sprite.esquisse2
-        const esquisse3 = sound.sprite.esquisse3
-
-        esquisse1.on('end', function(){
-            esquisse2.play()
-        });
-
-        esquisse2.on('end', function(){
-            esquisse3.play()
-        });
-
-        esquisse3.on('end', function(){
-            
-        });
-
-       
-    }
-
-    // todo sprites
-    changeAudio = (srcArray: Array<string>) => {
-        const sound = new Howl({
-            src: srcArray,
             onend: () => {
-                sound.fade(1, 0, 1000, sound);
+                this.sound.fade(1, 0, 1000, this.sound);
                 //sound.pause()
+            },
+
+            onplay: () => {
+
+                //on va chercher le son qui joue
+                console.log(this.sound._sounds[0])
+               
             }
         });
 
-        sound.play()
+        
+
     }
 
-    playSound = (sprite: any, name: string) => {
-        sprite.play(name);
+    clearSubtitles = () =>{
+
+    }
+
+   
+    playSound = (sound: any, name: string) => {
+        sound.play(name);
     }
     
 
     pauseAudio = (sound:any) => {
         sound.pause()
+    }
+
+    subtitlesCreate = (sequenceName: any) => {
+
+        let subtitlesDom: any[] = Array();
+
+        const subtitlesOfSequences = this.subtitles[sequenceName]
+      
+
+        //@ts-ignore
+        subtitlesOfSequences.forEach(element => {
+            const sub = document.createElement("p")
+            sub.className = "subtitle"
+            sub.id = element.id
+            sub.innerHTML = element.content
+            this.subtitlesDom.appendChild(sub)
+            subtitlesDom.push(sub)
+        });
+        
+
+        return {subtitlesOfSequences, subtitlesDom}
+        
+        
     }
 
     subtitlesDestroy = (subtitle:any) => {

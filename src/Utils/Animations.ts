@@ -48,7 +48,28 @@ export default class Animations {
             tl.to(camera.rotation, { z: cameraDestination.rot_z, y: cameraDestination.rot_y, x: cameraDestination.rot_x, duration: 2,  ease:"power2.inOut"}, 0)
             tl.to(camera.quaternion, { w: cameraDestination.quat_w, z: cameraDestination.quat_z, y: cameraDestination.quat_y, x: cameraDestination.quat_x, duration: 2,  ease:"power2.inOut"}, 0)
         }
-      
+    
+    }
+
+    hideAndShowSubtitles = (status:string, subtitleToHide:HTMLParagraphElement, disapearTime:number, subtitleToShow?:HTMLParagraphElement) => {
+
+        const tl = gsap.timeline()
+        const showTime = disapearTime + 0.6
+
+        if(status === "showAndHide") {
+           
+            if(subtitleToShow) {  
+                tl.to(subtitleToShow, { opacity:1,  ease:"power2.inOut", duration: 0.6}, 0) 
+                tl.add(() => { subtitleToShow.remove() }, 1)    
+                tl.to(subtitleToHide, { opacity:0,  ease:"power2.out", duration: 0.2}, disapearTime) 
+            }
+           
+        } else if(status === "hideAndShow") {
+                tl.to(subtitleToHide, { opacity:0,  ease:"power2.out", duration: 0.6}, disapearTime)
+                if(subtitleToShow) { tl.to(subtitleToShow, { opacity:0,  ease:"power2.out", duration: 0.2}, showTime) }
+                tl.add(() => { subtitleToHide.remove() }, 1)    
+        }
+        
         
     }
 }

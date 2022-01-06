@@ -121,18 +121,25 @@ export default class SequenceManager2 {
     }
 
     initSequences = () => {
+        // on pause tous les sons
+      
 
         if(this.sequenceNumber === 1) {
+            this.am.sound.pause()
             this.currentSequence = new Sequence2(this.sources[0])
             this.oldCameraPos = this.currentSequence.sources.camera[0]
+            this.am.sound.play('elon')
+            const subtitles = this.am.subtitlesCreate('elon')
+           
+            // this.animations.hideAndShowSubtitles("showAndHide", subtitles.subtitlesDom[1], subtitles.subtitlesOfSequences[0].from, subtitles.subtitlesDom[0])
 
         } else if(this.sequenceNumber === 2) {
             this.currentSequence = new Sequence2(this.sources[1])
-            
+            this.am.sound.play('elon2')
 
         } else if(this.sequenceNumber === 3) {
             this.currentSequence = new Sequence2(this.sources[2])
-            
+            this.am.sound.play('elon3')
         }
        
     }

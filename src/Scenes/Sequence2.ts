@@ -15,6 +15,9 @@ export default class Sequence
     public prevMesh:any
     public nextMesh:any
 
+    public audio: any
+    public subtitles: any
+
     constructor(sources: any)
     {
         this.experience = new Experience()
@@ -43,6 +46,7 @@ export default class Sequence
 
     // soit c'est une video, et alors la caméra y fait face (2D), soit c'est un déplacement dans la scène 3D
     initSequence = () => {
+        // init audio,
 
         if(this.type === "2D") {
 

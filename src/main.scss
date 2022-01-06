@@ -15,3 +15,14 @@ html, body, canvas, #app, .webgl {
     z-index: 2;
     top: 0;
 }
+
+
+.subtitle {
+    z-index: 2;
+    width: auto;
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    opacity: 0;
+    transform: translateX(-50%);
+}
