@@ -1,0 +1,22 @@
+{
+  "urls": [
+    "sequence.ogg",
+    "sequence.m4a",
+    "sequence.mp3",
+    "sequence.ac3"
+  ],
+  "sprite": {
+    "audio1": [
+      0,
+      5182.857142857143
+    ],
+    "audio2": [
+      7000,
+      6988.9795918367345
+    ],
+    "audio3": [
+      15000,
+      4334.761904761905
+    ]
+  }
+}

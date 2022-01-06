@@ -62,7 +62,6 @@ export default class SequenceManager2 {
                 type: "2D",
                 meshAlreadyInsideScene: 'sequence-1_1',
                 nextMesh: 'sequence-2_1',
-                audio: [],
                 camera: [
                     {
                         pos_x: 0.72,
@@ -85,14 +84,12 @@ export default class SequenceManager2 {
                 type: "2D",
                 previousMesh: 'sequence-1_1',
                 meshAlreadyInsideScene: 'sequence-2_1',
-                audio: [],
                 camera: []
             },
             {
                 sequenceNumber: 3,
                 nameSequence: 'Atelier',
                 type: "3D",
-                audio: [],   
                 camera: [ 
                     // coordonnées de destination 
                     {
@@ -119,27 +116,29 @@ export default class SequenceManager2 {
     }
 
     initSequences = () => {
+
         // on pause tous les sons
-        this.am.sound.pause()
+        this.am.sound.pause()    
 
         this.navManager.update(this.sequenceNumber)
-        
+    
+
         if(this.sequenceNumber === 1) {
-           
+          
             this.currentSequence = new Sequence2(this.sources[0])
             this.oldCameraPos = this.currentSequence.sources.camera[0]
-            this.am.sound.play('elon')
-            const subtitles = this.am.subtitlesCreate('elon')
            
-            // this.animations.hideAndShowSubtitles("showAndHide", subtitles.subtitlesDom[1], subtitles.subtitlesOfSequences[0].from, subtitles.subtitlesDom[0])
+            this.am.audioStart('sequence1')
 
         } else if(this.sequenceNumber === 2) {
+           
             this.currentSequence = new Sequence2(this.sources[1])
-            this.am.sound.play('elon2')
+            this.am.audioStart('sequence2')
 
         } else if(this.sequenceNumber === 3) {
+           
             this.currentSequence = new Sequence2(this.sources[2])
-            this.am.sound.play('elon3')
+            this.am.audioStart('sequence3')
         }
        
     }
@@ -149,6 +148,8 @@ export default class SequenceManager2 {
         this.prevBtn.addEventListener('click', this.prevSequence)
         this.replayBtn.addEventListener('click', this.replaySequence)
     }
+
+    
 
 
     changeSequence = (state: string) => {
@@ -163,6 +164,13 @@ export default class SequenceManager2 {
 
         if(state === "replay") {
 
+                this.am.audioCleanUp()
+
+                if(this.sequenceNumber === 1) { this.am.audioStart('sequence1') }
+                else if(this.sequenceNumber === 2) { this.am.audioStart('sequence2') }
+                else if(this.sequenceNumber === 3) { this.am.audioStart('sequence3') }
+                
+            
                 if(this.currentSequence.type === '2D') {
                 
                     this.oldSequence.createVideo() //rebuild mesh pour rejouer la sequence video sur le plane

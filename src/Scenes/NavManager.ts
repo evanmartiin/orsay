@@ -50,9 +50,4 @@ export default class NavManager {
         }});
         
     }
-
-    globalView = (totalTimeSequence: Number, ) => {
-
-    }
-
 }
