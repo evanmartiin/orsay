@@ -8,6 +8,8 @@ export default class NavManager {
     private progressBar: HTMLElement = document.querySelector(".bar") as HTMLElement
     private bullets: HTMLElement[] = Array.from(document.querySelector(".progress")?.getElementsByClassName("bullet") as HTMLCollection) as HTMLElement[]
 
+    private navigation: HTMLElement = document.querySelector(".navigation") as HTMLElement
+
     private sequenceNumber: number = 0;
     private percent: number = 0;
     private barAnimation: any = null;
@@ -36,11 +38,13 @@ export default class NavManager {
         let destination = 100 / (this.bullets.length - 1) * this.sequenceNumber;
 
         this.barAnimation?.kill();
+        this.navigation.style.opacity = "0";
 
         this.barAnimation = gsap.fromTo(this, {percent: this.percent}, {percent: destination, duration: duration, onUpdate: _ => {
             this.progressBar.style.background = `linear-gradient(to right, #3D2328 ${this.percent}%, #d4c5b2 ${this.percent}%)`;
         }, onComplete: _ => {
             this.bullets[this.sequenceNumber].style.backgroundColor = "#3D2328";
+            this.navigation.style.opacity = "1";
         }});
         
     }
