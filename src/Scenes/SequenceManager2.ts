@@ -59,7 +59,7 @@ export default class SequenceManager2 {
             {
                 sequenceNumber: 1,
                 nameSequence: 'Esquisse',
-                source: '/videos/Croquis.mov', 
+                source: '/videos/Croquis.mp4', 
                 type: "2D",
                 meshAlreadyInsideScene: 'sequence-1_1',
                 nextMesh: 'sequence-2_1',
