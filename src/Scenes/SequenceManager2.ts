@@ -4,6 +4,7 @@ import Experience from '../webgl/Experience'
 import Animations from '../Utils/Animations'
 import NavManager from './NavManager'
 import { gsap } from "gsap";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 export default class SequenceManager2 {   
     
@@ -28,6 +29,7 @@ export default class SequenceManager2 {
     private camera: any
     private scene: any
     private navManager: NavManager = new NavManager();
+    private canvas: HTMLCanvasElement = this.experience.canvas as HTMLCanvasElement;
 
     constructor() {
 
@@ -134,6 +136,7 @@ export default class SequenceManager2 {
             this.oldCameraPos = this.currentSequence.sources.camera[0]
            
             this.am.audioStart('sequence1')
+            
 
         } else if(this.sequenceNumber === 2) {
            
@@ -144,6 +147,10 @@ export default class SequenceManager2 {
            
             this.currentSequence = new Sequence2(this.sources[2])
             this.am.audioStart('sequence3')
+            setTimeout(() => {
+                this.camera.controls = new OrbitControls(this.camera, this.canvas)
+                this.camera.controls.enableDamping = true
+            }, 5000);
         }
        
     }
@@ -158,8 +165,6 @@ export default class SequenceManager2 {
 
 
     changeSequence = (state: string) => {
-        console.log(this.currentSequence)
-        console.log(this.sequenceNumber)
         this.am.audioCleanUp()
         
         this.oldSequence = this.currentSequence // celle à l'écran avant de la changer, on la sauvegarde

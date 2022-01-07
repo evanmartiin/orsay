@@ -88,7 +88,6 @@ export default class Experience
         // Resize event
         this.sizes.on('resize', () =>
         {
-            console.log(this.scene?.children)
             this.resize()
         })
 

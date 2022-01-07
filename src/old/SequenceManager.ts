@@ -105,7 +105,6 @@ export default class SequenceManager {
 
             if(sequence.type === '2D') {
                
-                console.log(sequence.video.currentTime)
                 sequence.video.pause() 
                 sequence.currentTime = 0
                 sequence.video.play()

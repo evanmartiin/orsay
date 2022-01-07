@@ -40,7 +40,6 @@ export default class Sequence
 
         // les sources qui permettent de faire toute la scène (position, source video..)
         this.sources = sources
-        console.log(this.sources);
         
         this.type = sources.type
 
@@ -69,7 +68,6 @@ export default class Sequence
            this.create3DSequence()
 
         }
-        console.log(this.oldSequence);
         
 
         if(!this.oldSequence && this.sources.sequenceNumber === 1) {
@@ -152,7 +150,6 @@ export default class Sequence
     setCameraStartSequence = () => {
     
         // TODO faire ça avec les transitions en theatre.js ou avec du lerp
-        console.log(this.sources.camera[0]);
         
         
         this.camera.position.x = this.sources.camera[0].pos_x, 

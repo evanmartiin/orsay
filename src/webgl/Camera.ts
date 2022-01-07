@@ -35,7 +35,6 @@ export default class Camera
     {
         this.instance = new PerspectiveCamera(50, this.sizes.width / this.sizes.height, 0.1, 100)
         this.scene.add(this.instance)
-        console.log(this.instance);
         
         
         if(this.debugFolder && this.debug.active)

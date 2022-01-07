@@ -229,7 +229,6 @@ export default class AudioManager {
         
         // on affichera le sous titre en question
         const subDom = document.querySelector(`.subtitle-${subLogic.id}`)
-        console.log(subDom)
         
         this.sequenceTL.to(subDom, { opacity: .9, duration: 0.3}, subLogic.displayFrom)
 

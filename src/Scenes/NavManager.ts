@@ -38,7 +38,6 @@ export default class NavManager {
         this.stepperTitle.innerHTML = this.titles[sequenceNumber - 1];
 
         this.percent = 100 / (this.bullets.length - 1) * (sequenceNumber - 1);
-        console.log(this.percent);
         
         this.barAnimation?.kill();
 

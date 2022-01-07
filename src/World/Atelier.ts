@@ -48,8 +48,6 @@ export default class Atelier
             {
                 child.castShadow = true
 
-                console.log(child.name)
-
                 if(child.name === "binbinks-joined") {
                     
                     const material = new MeshBasicMaterial({map: this.baked})

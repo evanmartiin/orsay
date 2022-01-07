@@ -17,7 +17,6 @@ export default class Environment
         if(this.debug.active)
         {
             this.debugFolder = this.debug.ui?.addFolder('environment')
-            console.log(this.debugFolder);
             
         }
 
