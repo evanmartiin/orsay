@@ -4,6 +4,8 @@ import { ISource } from '../webgl/Experience';
 import EventEmitter from './EventEmitter'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 
+import { BasisTextureLoader } from 'three/examples/jsm/loaders/BasisTextureLoader.js';
+
 export default class Loaders extends EventEmitter
 {
     private sources: ISource[];
@@ -11,14 +13,17 @@ export default class Loaders extends EventEmitter
     private toLoad: number | null = null;
     private loaded: number = 0;
     private loaders: any;
+    public renderer: any;
 
-    constructor(sources: ISource[])
+    constructor(sources: ISource[], renderer: any)
     {
         super()
 
         this.sources = sources
         this.items = {}
         this.toLoad = this.sources.length
+
+        this.renderer = renderer
 
         this.setLoaders()
         this.startLoading()
@@ -32,6 +37,10 @@ export default class Loaders extends EventEmitter
         dracoLoader.setDecoderPath('/draco/')
         this.loaders.gltfLoader.setDRACOLoader(dracoLoader)
         this.loaders.textureLoader = new TextureLoader()
+
+        this.loaders.basis = new BasisTextureLoader()
+        this.loaders.basis.setTranscoderPath('/basis/')
+        this.loaders.basis.detectSupport( this.renderer );
     }
 
     startLoading()
@@ -53,6 +62,17 @@ export default class Loaders extends EventEmitter
                 else if(source.type === 'texture')
                 {
                     this.loaders.textureLoader.load(
+                        source.path,
+                        (file: any) =>
+                        {
+                            this.sourceLoaded(source, file)
+                        }
+                    )
+                }
+
+                else if(source.type === 'basis')
+                {
+                    this.loaders.basis.load(
                         source.path,
                         (file: any) =>
                         {

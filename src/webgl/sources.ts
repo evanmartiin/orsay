@@ -10,7 +10,12 @@ const Sources: ISource[] = [
     {
         name: 'baked',
         type: 'texture',
-        path: '/textures/baked5.jpg'
+        path: '/textures/baked4-s.jpg'
+    },
+    {
+        name: 'bakedBasis',
+        type: 'basis',
+        path: '/textures/baked4-s.basis'
     },
     
 

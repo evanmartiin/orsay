@@ -27,7 +27,7 @@ export default class SequenceManager2 {
 
     private experience: Experience = new Experience();
     private camera: any
-    private scene: any
+    public scene: any
     private navManager: NavManager = new NavManager();
     private canvas: HTMLCanvasElement = this.experience.canvas as HTMLCanvasElement;
 

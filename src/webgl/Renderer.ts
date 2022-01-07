@@ -1,5 +1,4 @@
-import { CineonToneMapping, PCFSoftShadowMap, Scene, sRGBEncoding, WebGLRenderer } from 'three';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer';
+import { CineonToneMapping, PCFSoftShadowMap, sRGBEncoding, WebGLRenderer } from 'three';
 import Sizes from '../Utils/Sizes';
 import Camera from './Camera';
 import Experience from './Experience'

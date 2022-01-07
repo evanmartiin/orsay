@@ -12,7 +12,7 @@ import Sources from './sources'
 //New
 import Device from '../Utils/Device'
 import Raycaster from '../Interactions/Raycaster'
-import Animations from '../Utils/Animations'
+
 
 declare global {
   interface Window {
@@ -22,7 +22,7 @@ declare global {
 
 export interface ISource {
     name: string;
-    type: 'gltfModel' | 'texture' | 'video'; 
+    type: 'gltfModel' | 'texture' | 'video' | 'basis'; 
     path: string;
 }
 
@@ -41,7 +41,7 @@ export default class Experience
     public camera: Camera | null = null
     public renderer: Renderer | null = null
     private world: World | null = null
-    private animations: Animations | null = null
+  
 
     public raycaster: Raycaster | null = null
     public device: Device | null = null
@@ -62,16 +62,15 @@ export default class Experience
         if (_canvas) this.canvas = _canvas
         this.device = new Device();
         this.sources = Sources
-        this.loaders = new Loaders(this.sources);
         this.sizes = new Sizes();
         this.time = new Time();
         this.debug = new Debug();
         this.scene = new Scene();
         this.camera = new Camera();
         this.renderer = new Renderer();
+        this.loaders = new Loaders(this.sources, this.renderer.instance);
         this.world = new World();
-        this.animations = new Animations();
-
+       
 
         this.raycaster = new Raycaster()
 

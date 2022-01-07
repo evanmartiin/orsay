@@ -1,30 +1,27 @@
-import { PlaneGeometry, RawShaderMaterial, MeshBasicMaterial, Mesh, Scene, Vector2, VideoTexture, LinearFilter, RGBFormat, DoubleSide, FrontSide } from "three";
+import { PlaneGeometry,  MeshBasicMaterial, Mesh, Scene,VideoTexture, LinearFilter, RGBFormat, FrontSide } from "three";
 import Experience from "../webgl/Experience";
 import Sizes from "../Utils/Sizes";
 
 
 
-// shaders
-import vertShader from '../shaders/sequence/vertex.vert?raw'
-import fragShader from '../shaders/sequence/fragment.frag?raw'
 
 
 export default class Sequence
 {
     private experience: Experience = new Experience();
     private scene: Scene = this.experience.scene as Scene;
-    private sizes: Sizes = this.experience.sizes as Sizes;
+    public  sizes: Sizes = this.experience.sizes as Sizes;
     private geometry: PlaneGeometry | null = null;
     private texture: VideoTexture | null = null;
     private material: any
-    private time: number
-    private camera: any
+    public  time: number
+    public camera: any
     public video: any
 
-    private type: string
+    public type: string
     private mesh: any
 
-    private fov_y: any
+
 
     constructor(sequenceNumber: number, sequenceType:string, source: string, position?:number)
     {
@@ -32,7 +29,6 @@ export default class Sequence
     
         //WIP aspect ratio
         this.camera = this.experience.camera?.instance
-        this.fov_y = this.camera.position.z * this.camera.getFilmHeight() / this.camera.getFocalLength();
 
         this.mesh = null;
         this.material = null;
@@ -51,6 +47,7 @@ export default class Sequence
 
 
     initSequencePlane = (sequenceNumber: number, source: string, position?: number) => {
+        console.log(sequenceNumber)
 
         this.video = document.createElement('video')
         this.video.src = source

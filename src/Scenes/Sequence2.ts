@@ -1,4 +1,4 @@
-import { MeshBasicMaterial,  Scene, VideoTexture, LinearFilter, RGBFormat, ShaderMaterial, FrontSide } from "three";
+import {  Scene, VideoTexture, LinearFilter, RGBFormat, ShaderMaterial, FrontSide } from "three";
 import Experience from "../webgl/Experience";
 import NavManager from "./NavManager";
 import { gsap, Power1 } from 'gsap';
