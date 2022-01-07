@@ -22,7 +22,9 @@ export default class World
            
             this.atelier = new Atelier()
             this.environment = new Environment()
-            this.sequenceManager = new SequenceManager2()
+            setTimeout(() => {
+                this.sequenceManager = new SequenceManager2()
+            }, 1000);
         })
     }
 

@@ -2,6 +2,8 @@
 import { Howl, Howler } from 'howler';
 import gsap from "gsap";
 
+let instance: AudioManager;
+
 export default class AudioManager {
     subtitles: any
     sound: Howler | null
@@ -10,10 +12,42 @@ export default class AudioManager {
     subtitlesDom: any
     howler: Howler
     sequenceTL: any
+    music: Howler
+    drawing: Howler
+    public videoPlaying: boolean = false;
 
     constructor() {
+        if (instance) {
+            return instance;
+        }
+        instance = this;
 
         this.sequenceTL = null
+
+        this.music = new Howl({
+            src: ['/sounds/music.mp3'],
+            loop: true,
+            volume: .005
+        })
+
+        this.drawing = new Howl({
+            src: ['/sounds/drawing.mp3'],
+            sprite: {
+                0: [0, 4840],
+                1: [4840, 4720],
+                2: [9560, 3160],
+                3: [12720, 4410],
+            },
+            volume: .02
+        })
+        
+        this.drawing.on('end', () => {
+            setTimeout(() => {
+                if (this.videoPlaying) {
+                    this.drawing.play(Math.floor(Math.random() * 4).toString());
+                }
+            }, 1000);
+        })
 
         this.sound = null;
         this.subtitlesDom = document.querySelector('.subtitles')
@@ -25,19 +59,19 @@ export default class AudioManager {
                     id: 1,
                     displayFrom: 1,
                     hideAt: 5.8,
-                    content: "En 1904, Emile Gallé se lança dans la conception d’une oeuvre unique.",
+                    content: "En 1904, Émile Gallé se lança dans la conception d’une oeuvre unique.",
                 },
                 {
                     id: 2,
                     displayFrom: 6,
                     hideAt: 11,
-                    content: "Cette oeuvre, fascine encore aujourd’hui tant par sa conception que par ses symboles sous jacents. ",
+                    content: "Cette oeuvre fascine encore aujourd’hui tant par sa conception que par ses symboles sous-jacents.",
                 },
                 {
                     id: 3,
                     displayFrom: 11.5,
                     hideAt: 17,
-                    content: "Emile Gallé fit appel à un dessinateur pour se charger des premiers croquis en dessin et en aquarelle.",
+                    content: "Émile Gallé fit appel à un dessinateur pour se charger des premiers croquis en dessin et en aquarelle.",
                 },
             ],
 
@@ -52,19 +86,19 @@ export default class AudioManager {
                     id: 5,
                     displayFrom: 6.2,
                     hideAt: 10.5,
-                    content: "Ce travail de colaboration était courant pour toutes les créations de Gallé.  ",
+                    content: "Ce travail de collaboration était courant pour toutes les créations de Gallé.",
                 },
                 {
                     id: 6,
                     displayFrom: 10.7,
                     hideAt: 14,
-                    content: "Il fallait penser l’objet avant de démarrer la fabrication. ",
+                    content: "Il fallait penser l’objet avant de démarrer la fabrication.",
                 },
                 {
                     id: 7,
                     displayFrom: 14.5,
                     hideAt: 20,
-                    content: "Le but premier de ces croquis était d’avoir une direction pour toutes les personnes travaillant sur le projet ",
+                    content: "Le but premier de ces croquis était d’avoir une direction pour toute personne travaillant sur le projet.",
                 },
             ],
 
@@ -73,31 +107,31 @@ export default class AudioManager {
                     id: 8,
                     displayFrom: 4,
                     hideAt: 12,
-                    content: "Une fois la conception terminée, il pensa aux étapes de fabrication qui allaient mettre ses compétences de maitre verrier à rude épreuves.",
+                    content: "Une fois la conception terminée, il pensa aux étapes de fabrication qui allaient mettre ses compétences de maître-verrier à rude épreuve.",
                 },
                 {
                     id: 9,
                     displayFrom: 12.5,
                     hideAt: 17.5,
-                    content: "Une oeuvre complexe comme celle ci implique de suivre un protocole de fabrication rigoureux. ",
+                    content: "Une œuvre complexe comme celle-ci implique de suivre un protocole de fabrication rigoureux.",
                 },
                 {
                     id: 10,
                     displayFrom: 18,
                     hideAt: 23,
-                    content: "L’élaboration en atelier des œuvres pensées par Gallé connaissait une méthode récurrente. ",
+                    content: "L’élaboration en atelier des œuvres pensées par Gallé connaissait une méthode récurrente.",
                 },
                 {
                     id: 11,
                     displayFrom: 24,
                     hideAt: 32,
-                    content: "Il était habituel de réaliser plusieurs fois un même objet, pour s’assurer qu’au moins un exemplaire serait parfait même si l’on rencontrait un problème durant le processus de sa création. ",
+                    content: "Il était habituel de réaliser plusieurs fois un même objet, pour s’assurer qu’au moins un exemplaire serait parfait même si l’on rencontrait un problème durant le processus de création.",
                 },
                 {
                     id: 12,
                     displayFrom: 33,
                     hideAt: 36,
-                    content: "Ainsi, plusieurs mains aux algues ont été élaborées, il n’y en a pas que celle se trouvant au Musée d’Orsay.",
+                    content: "Ainsi, plusieurs 'Mains aux Algues' ont été élaborées, il n’y en a pas que celle se trouvant au Musée d’Orsay.",
                 },
             ]
 
@@ -197,7 +231,7 @@ export default class AudioManager {
         const subDom = document.querySelector(`.subtitle-${subLogic.id}`)
         console.log(subDom)
         
-        this.sequenceTL.to(subDom, { opacity: 1, duration: 0.3}, subLogic.displayFrom)
+        this.sequenceTL.to(subDom, { opacity: .9, duration: 0.3}, subLogic.displayFrom)
 
         // on cachera à un certain moment le sous titre en question
         this.sequenceTL.to(subDom, { opacity: 0, duration: 0.2}, subLogic.hideAt)       
@@ -208,5 +242,10 @@ export default class AudioManager {
             this.sequenceTL.play()
         
        
+    }
+
+    drawingSounds = () => {
+        this.videoPlaying = true;
+        this.drawing.play(Math.floor(Math.random() * 4).toString());
     }
 }

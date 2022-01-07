@@ -1,13 +1,15 @@
 import { MeshBasicMaterial,  Scene, VideoTexture, LinearFilter, RGBFormat, ShaderMaterial, FrontSide } from "three";
 import Experience from "../webgl/Experience";
 import NavManager from "./NavManager";
-
+import { gsap, Power1 } from 'gsap';
+import AudioManager from "./AudioManager";
 
 export default class Sequence
 {
     private experience: Experience = new Experience();
     private scene: Scene = this.experience.scene as Scene;
     private navManager: NavManager = new NavManager();
+    private audioManager: AudioManager = new AudioManager();
     private camera: any
     public video: any
 
@@ -19,8 +21,10 @@ export default class Sequence
 
     public audio: any
     public subtitles: any
+    
+    private oldSequence: any
 
-    constructor(sources: any)
+    constructor(sources: any, oldSequence?: any)
     {
         this.experience = new Experience()
     
@@ -31,9 +35,13 @@ export default class Sequence
         this.mesh = null;
         this.video = null;
 
+        if(oldSequence) this.oldSequence = oldSequence
+
 
         // les sources qui permettent de faire toute la scène (position, source video..)
         this.sources = sources
+        console.log(this.sources);
+        
         this.type = sources.type
 
         if(this.sources.sequenceNumber > 1 && this.sources.sequenceNumber < 2) {
@@ -61,6 +69,13 @@ export default class Sequence
            this.create3DSequence()
 
         }
+        console.log(this.oldSequence);
+        
+
+        if(!this.oldSequence && this.sources.sequenceNumber === 1) {
+            gsap.fromTo(this.camera.position, { y: -.5 }, { y: .829, duration: 3, ease: Power1.easeInOut })
+        }
+        
     }
 
     createVideo = () => {
@@ -73,7 +88,15 @@ export default class Sequence
         this.video.loop = false
         this.video.onloadedmetadata = () => {
             this.navManager.animateBar(this.video.duration);
+
+            this.audioManager.drawingSounds();
+    
+            setTimeout(() => {
+                this.audioManager.videoPlaying = false;
+                this.audioManager.drawing.stop();
+            }, (this.video.duration * 1000));
         }
+
         
         
         // this.video.play();
@@ -126,6 +149,7 @@ export default class Sequence
         // on a l'audio qui démarre
 
         // on a le manager nav qui suit la progression
+        this.navManager.animateBar(38);
 
     }
 

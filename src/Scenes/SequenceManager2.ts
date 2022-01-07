@@ -38,6 +38,8 @@ export default class SequenceManager2 {
         
         // Audio
         this.am = new AudioManager()
+        this.am.music.play()
+
         this.animations = new Animations()
 
         // Variable pour lancer les étapes du projets (1. story - 2. AR - 3. Main custo)
@@ -66,7 +68,7 @@ export default class SequenceManager2 {
                 camera: [
                     {
                         pos_x: 4.488,
-                        pos_y: .229,
+                        pos_y: .829,
                         pos_z: -.588,
                         rot_x: -1.55,
                         rot_y: .017,
@@ -77,7 +79,7 @@ export default class SequenceManager2 {
             {
                 sequenceNumber: 2,
                 nameSequence: 'Aquarelle',
-                source: '/videos/Aquarelle.mov', 
+                source: '/videos/Aquarelle.mp4', 
                 type: "2D",
                 previousMesh: 'sequence-1_1',
                 meshAlreadyInsideScene: 'sequence-2_1',
@@ -85,7 +87,7 @@ export default class SequenceManager2 {
                 camera: [
                     {
                         pos_x: 5.865,
-                        pos_y: .229,
+                        pos_y: .829,
                         pos_z: -.033,
                         rot_x: -1.55,
                         rot_y: .017,
@@ -128,7 +130,7 @@ export default class SequenceManager2 {
 
         if(this.sequenceNumber === 1) {
           
-            this.currentSequence = new Sequence2(this.sources[0])
+            this.currentSequence = new Sequence2(this.sources[0], this.oldSequence)
             this.oldCameraPos = this.currentSequence.sources.camera[0]
            
             this.am.audioStart('sequence1')
@@ -162,7 +164,7 @@ export default class SequenceManager2 {
         
         this.oldSequence = this.currentSequence // celle à l'écran avant de la changer, on la sauvegarde
         if(state !== "replay") this.initSequences()  // la nouvelle sequence, devient l'actuelle, sauf en cas de replay
-       
+        else this.navManager.update(this.sequenceNumber)
     
         /* SCENE REPLAY */
 

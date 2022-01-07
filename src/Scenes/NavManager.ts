@@ -1,4 +1,4 @@
-import gsap from "gsap";
+import { gsap, Power1 } from "gsap";
 gsap.defaults({ ease: "none" });
 
 let instance: NavManager;
@@ -27,8 +27,6 @@ export default class NavManager {
 
     init() {
         this.stepper.style.opacity = "1";
-        this.navigation.style.opacity = "1";
-        this.navigation.style.pointerEvents = "all";
     }
 
     update(sequenceNumber: number) {
@@ -43,6 +41,9 @@ export default class NavManager {
         console.log(this.percent);
         
         this.barAnimation?.kill();
+
+        // this.navigation.style.opacity = "0";
+        // this.navigation.style.pointerEvents = "none";
         
         this.progressBar.style.background = `linear-gradient(to right, #3D2328 ${this.percent}%, #d4c5b2 ${this.percent}%)`;
 
@@ -50,7 +51,7 @@ export default class NavManager {
             this.prevBtn.style.opacity = "0";
             this.prevBtn.style.pointerEvents = "none";
         } else {
-            this.prevBtn.style.opacity = ".3";
+            this.prevBtn.style.opacity = ".7";
             this.prevBtn.style.pointerEvents = "all";
         }
     }
@@ -60,11 +61,16 @@ export default class NavManager {
         let destination = 100 / (this.bullets.length - 1) * this.sequenceNumber;
 
         this.barAnimation?.kill();
+
+        // this.navigation.style.opacity = "0";
+        // this.navigation.style.pointerEvents = "none";
         
-        this.barAnimation = gsap.fromTo(this, {percent: this.percent}, {percent: destination, duration: duration, onUpdate: _ => {
+        this.barAnimation = gsap.fromTo(this, {percent: this.percent}, {percent: destination, duration: duration, ease: Power1.easeInOut, onUpdate: _ => {
             this.progressBar.style.background = `linear-gradient(to right, #3D2328 ${this.percent}%, #d4c5b2 ${this.percent}%)`;
         }, onComplete: _ => {
             this.bullets[this.sequenceNumber].style.backgroundColor = "#3D2328";
+            this.navigation.style.opacity = "1";
+            this.navigation.style.pointerEvents = "all";
         }});
         
     }
