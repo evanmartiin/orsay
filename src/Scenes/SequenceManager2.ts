@@ -63,8 +63,8 @@ export default class SequenceManager2 {
                 nameSequence: 'Esquisse',
                 source: '/videos/Croquis.mp4', 
                 type: "2D",
-                meshAlreadyInsideScene: 'sequence-1_1',
-                nextMesh: 'sequence-2_1',
+                meshAlreadyInsideScene: 'sequence-1',
+                nextMesh: 'sequence-2',
                 camera: [
                     {
                         pos_x: 4.488,
@@ -81,8 +81,8 @@ export default class SequenceManager2 {
                 nameSequence: 'Aquarelle',
                 source: '/videos/Aquarelle.mp4', 
                 type: "2D",
-                previousMesh: 'sequence-1_1',
-                meshAlreadyInsideScene: 'sequence-2_1',
+                previousMesh: 'sequence-1',
+                meshAlreadyInsideScene: 'sequence-2',
                 audio: [],
                 camera: [
                     {
@@ -104,7 +104,7 @@ export default class SequenceManager2 {
                     {
                         pos_x: -3.274,
                         pos_y:  1.85,
-                        pos_z: 10,
+                        pos_z: 14,
                         rot_x:  -.325,
                         rot_y:  -.57,
                         rot_z: -.161,

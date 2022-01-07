@@ -106,6 +106,6 @@ export default class Camera
 
         // console.log(this.instance?.position, this.instance?.rotation, this.instance?.quaternion)
         
-        this.controls?.update()
+        // this.controls?.update()
     }
 }

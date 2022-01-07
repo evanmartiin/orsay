@@ -1,4 +1,4 @@
-import {  Mesh, Scene } from 'three';
+import {  Mesh, MeshBasicMaterial, Scene } from 'three';
 import Debug from '../Utils/Debug';
 import Loaders from '../Utils/Loaders';
 import Time from '../Utils/Time';
@@ -14,6 +14,7 @@ export default class Atelier
     private debugFolder: any;
     private resource: any;
     private model: any;
+    private baked: any
 
     constructor()
     {
@@ -25,14 +26,19 @@ export default class Atelier
 
         // Resource
         this.resource = this.loaders.items.atelierModel
+        this.baked = this.loaders.items.baked
+        this.baked.flipY = false
 
         this.setModel()
+        
         
     }
 
     setModel()
     {
         this.model = this.resource.scene
+
+    
         
         this.scene.add(this.model)
 
@@ -42,8 +48,12 @@ export default class Atelier
             {
                 child.castShadow = true
 
-                if(child.name) {
-                    // console.log(child.name)
+                console.log(child.name)
+
+                if(child.name === "binbinks-joined") {
+                    
+                    const material = new MeshBasicMaterial({map: this.baked})
+                    child.material = material
                 }
             }
             
