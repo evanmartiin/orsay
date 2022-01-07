@@ -42,8 +42,8 @@ export default class NavManager {
         
         this.barAnimation?.kill();
 
-        // this.navigation.style.opacity = "0";
-        // this.navigation.style.pointerEvents = "none";
+        this.navigation.style.opacity = "0";
+        this.navigation.style.pointerEvents = "none";
         
         this.progressBar.style.background = `linear-gradient(to right, #3D2328 ${this.percent}%, #d4c5b2 ${this.percent}%)`;
 
@@ -62,8 +62,8 @@ export default class NavManager {
 
         this.barAnimation?.kill();
 
-        // this.navigation.style.opacity = "0";
-        // this.navigation.style.pointerEvents = "none";
+        this.navigation.style.opacity = "0";
+        this.navigation.style.pointerEvents = "none";
         
         this.barAnimation = gsap.fromTo(this, {percent: this.percent}, {percent: destination, duration: duration, ease: Power1.easeInOut, onUpdate: _ => {
             this.progressBar.style.background = `linear-gradient(to right, #3D2328 ${this.percent}%, #d4c5b2 ${this.percent}%)`;

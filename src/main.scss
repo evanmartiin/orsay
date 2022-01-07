@@ -82,8 +82,8 @@ html, body, canvas, #app, .webgl {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    // opacity: 0;
-    // pointer-events: none;
+    opacity: 0;
+    pointer-events: none;
     position: fixed;
     bottom: 50px;
     left: 30vw;
