@@ -191,8 +191,8 @@ export default class SequenceManager2 {
             const orig = this.sources[this.sequenceNumber - 2].camera[0];
             const dest = this.sources[this.sequenceNumber - 1].camera[0];
             
-            gsap.fromTo(this.camera.position, { x: orig.pos_x, y: orig.pos_y, z: orig.pos_z }, { x: dest.pos_x, y: dest.pos_y, z: dest.pos_z, duration: 1 })
-            gsap.fromTo(this.camera.rotation, { x: orig.rot_x, y: orig.rot_y, z: orig.rot_z }, { x: dest.rot_x, y: dest.rot_y, z: dest.rot_z, duration: 1 })
+            gsap.fromTo(this.camera.position, { x: orig.pos_x, y: orig.pos_y, z: orig.pos_z }, { x: dest.pos_x, y: dest.pos_y, z: dest.pos_z, duration: 2.4, ease:"power2.inOut"})
+            gsap.fromTo(this.camera.rotation, { x: orig.rot_x, y: orig.rot_y, z: orig.rot_z }, { x: dest.rot_x, y: dest.rot_y, z: dest.rot_z, duration: 2.4, ease:"power2.inOut" })
                 
                 
         /* SCENE PRECEDENTE */

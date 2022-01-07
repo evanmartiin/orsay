@@ -144,10 +144,6 @@ export default class Sequence
 
     create3DSequence = () => {
 
-        // on a le déplacement de la caméra
-
-        // on a l'audio qui démarre
-
         // on a le manager nav qui suit la progression
         this.navManager.animateBar(38);
 
